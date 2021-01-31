@@ -16,7 +16,7 @@ import java.util.List;
 
 public class GPUImageRender implements GLSurfaceView.GLRender {
 
-    List<BaseGPUImageFilter> filterList = new ArrayList<>();
+    BaseGPUImageFilter filter;
     private Context context;
 
     private float[] vertexData = {
@@ -40,16 +40,7 @@ public class GPUImageRender implements GLSurfaceView.GLRender {
             1f, 0f
 
     };
-
-    private float[] fragmentData2 = {
-            0f, 0.5f,
-            0.5f, 0.5f,
-            0.5f, 0f,
-            0.5f, 0f
-
-    };
-
-    private FloatBuffer vertexBuffer, vertexBuffer2, fragmentBuffer, fragmentBuffer2;
+    private FloatBuffer vertexBuffer, fragmentBuffer;
 
 
     private int program ;
@@ -57,7 +48,6 @@ public class GPUImageRender implements GLSurfaceView.GLRender {
     private int fPosition; //  纹理
 
     private int textureId; // 纹理id
-    private int textureId2; // 纹理id
     private Bitmap bitmap;
 
 
@@ -66,25 +56,12 @@ public class GPUImageRender implements GLSurfaceView.GLRender {
 
         // 获取顶点和纹理buffer
         vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
-        vertexBuffer2 = ShaderUtils.allocateBuffer(vertexData2);
         fragmentBuffer = ShaderUtils.allocateBuffer(fragmentData);
-        fragmentBuffer2 = ShaderUtils.allocateBuffer(fragmentData2);
 
     }
 
     @Override
     public void onSurfaceCreate() {
-
-        //  加载顶点源码
-//        String vertexSource = ShaderUtils.getRawResource(context, R.raw.vertex_shader);
-//        String fragmentSource = ShaderUtils.getRawResource(context, R.raw.fragment_shader);
-//
-//        program = ShaderUtils.createProgram(vertexSource, fragmentSource);
-//
-//
-//        // 10 得到着色器中的属性
-//        vPosition = GLES20.glGetAttribLocation(program, "v_Position");
-//        fPosition = GLES20.glGetAttribLocation(program, "f_Position");
 
     }
 
@@ -96,38 +73,17 @@ public class GPUImageRender implements GLSurfaceView.GLRender {
     @Override
     public void onDrawFrame() {
         textureId = ShaderUtils.loadBitmapTexture(bitmap);
-        textureId2 = ShaderUtils.loadTextrue(context, R.drawable.c);
         ShaderUtils.clearScreenDefault();
-
-        for (int i = 0 ;i < filterList.size(); i++) {
-            if (i == 0) {
-                // 重新绑定纹理
-                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
-                BaseGPUImageFilter filter = filterList.get(i);
-                String vertexSource = filter.getVertexSource();
-                String fragmentSource = filter.getFragmentSource();
-                program = ShaderUtils.createProgram(vertexSource, fragmentSource);
-                GLES20.glUseProgram(program);
-                vPosition = GLES20.glGetAttribLocation(program, "v_Position");
-                fPosition = GLES20.glGetAttribLocation(program, "f_Position");
-                ShaderUtils.renderTexture(vPosition, fPosition, vertexBuffer, fragmentBuffer);
-                //  解除绑定纹理
-                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
-            } else {
-                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId2);
-                BaseGPUImageFilter filter = filterList.get(i);
-                String vertexSource = filter.getVertexSource();
-                String fragmentSource = filter.getFragmentSource();
-                program = ShaderUtils.createProgram(vertexSource, fragmentSource);
-                GLES20.glUseProgram(program);
-                vPosition = GLES20.glGetAttribLocation(program, "v_Position");
-                fPosition = GLES20.glGetAttribLocation(program, "f_Position");
-                ShaderUtils.renderTexture(vPosition, fPosition, vertexBuffer2, fragmentBuffer);
-                //  解除绑定纹理
-                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
-            }
-
-        }
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
+        String vertexSource = filter.getVertexSource();
+        String fragmentSource = filter.getFragmentSource();
+        program = ShaderUtils.createProgram(vertexSource, fragmentSource);
+        GLES20.glUseProgram(program);
+        vPosition = GLES20.glGetAttribLocation(program, "v_Position");
+        fPosition = GLES20.glGetAttribLocation(program, "f_Position");
+        ShaderUtils.renderTexture(vPosition, fPosition, vertexBuffer, fragmentBuffer);
+        //  解除绑定纹理
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 
 
     }
@@ -136,7 +92,7 @@ public class GPUImageRender implements GLSurfaceView.GLRender {
         this.bitmap = bitmap;
     }
 
-    public void addFilter(BaseGPUImageFilter filter) {
-        filterList.add(filter);
+    public void setFilter(BaseGPUImageFilter filter) {
+        this.filter = filter;
     }
 }

@@ -23,10 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         gpuImageView = findViewById(R.id.gpuImageView);
         gpuImageView.setImage(bitmap)
-
-        .addFilter(new GPUImageGreyFilter(this))
-                .addFilter(new GPUImageLightFilter(this))
-
-                .flush();
+        .setFilter(new GPUImageGreyFilter(this));
     }
 }

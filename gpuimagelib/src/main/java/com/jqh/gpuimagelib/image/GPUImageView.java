@@ -32,9 +32,10 @@ public class GPUImageView extends GLSurfaceView {
         return this;
     }
 
-    public GPUImageView addFilter(BaseGPUImageFilter filter) {
+    public GPUImageView setFilter(BaseGPUImageFilter filter) {
         if (filter != null && render != null) {
-            render.addFilter(filter);
+            render.setFilter(filter);
+            flush();
         }
         return this;
     }
