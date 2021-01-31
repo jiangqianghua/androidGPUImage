@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
    <com.jqh.gpuimagelib.image.GPUImageView
        android:id="@+id/gpuImageView"
        android:layout_width="match_parent"
-       android:layout_height="match_parent" />
+       android:layout_height="0dp"
+       android:layout_weight="1"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+   <SeekBar
+       android:id="@+id/seekBar"
+       android:layout_width="match_parent"
+       android:layout_height="10dp"
+       android:layout_margin="5dp"/>
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="透明"
+       android:onClick="opacityClick"/>
+
+</LinearLayout>
