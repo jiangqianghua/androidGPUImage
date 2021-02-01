@@ -4,13 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.jqh.gpuimagelib.filter.GPUImageGreyFilter;
+import com.jqh.gpuimagelib.filter.GPUImageHueBlendFilter;
 import com.jqh.gpuimagelib.filter.GPUImageLightFilter;
 import com.jqh.gpuimagelib.filter.GPUImageOpacityFilter;
+import com.jqh.gpuimagelib.filter.GPUImageZoomBlurFilter;
 import com.jqh.gpuimagelib.image.GPUImageView;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
         gpuImageView = findViewById(R.id.gpuImageView);
         gpuImageView.setImage(bitmap);
+
+        gpuImageView.setFilter(new GPUImageZoomBlurFilter(this,new PointF(0.5f, 0.5f), 1.0f));
 //
         initEvent();
     }
