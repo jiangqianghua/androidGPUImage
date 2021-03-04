@@ -6,7 +6,7 @@ import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import com.jqh.gpuimagelib.R;
+import com.jqh.gpuimagelib.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.opengl.GLSurfaceView;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
@@ -15,8 +15,8 @@ import java.nio.FloatBuffer;
 
 public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.OnFrameAvailableListener {
     private Context context;
-
-
+    private boolean filterChange = false;
+    BaseGPUImageFilter filter;
     // 多绘制，填入两次坐标
     private float[] vertexData = {
             -1f, -1f,
@@ -54,7 +54,8 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
 
     public GPUCameraRender(Context context) {
         this.context = context;
-
+        filter = new BaseGPUImageFilter(context);
+        filter.setIsMedia(true);
         // 获取顶点和纹理buffer
         vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
         fragmentBuffer = ShaderUtils.allocateBuffer(fragmentData);
@@ -65,12 +66,15 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
     }
 
     private void initRender(){
-        String vertexSource = ShaderUtils.getRawResource(context, R.raw.vertex_shader_camera);
-        String fragmentSource = ShaderUtils.getRawResource(context, R.raw.fragment_shader_camera);
+
+        String vertexSource = filter.getVertexSource();
+        String fragmentSource = filter.getFragmentSource();
         program = ShaderUtils.createProgram(vertexSource, fragmentSource);
         vPosition = GLES20.glGetAttribLocation(program, "v_Position");
         fPosition = GLES20.glGetAttribLocation(program, "f_Position");
         umatrix = GLES20.glGetUniformLocation(program, "u_Matrix");
+        filter.setProgram(program);
+        filter.init();
     }
     public void reSetMatrix(){
         Matrix.setIdentityM(matrix, 0);
@@ -122,9 +126,13 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
         surfaceTexture.updateTexImage();
         ShaderUtils.clearScreenDefault();
 //        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, cameraTextureId);
-
+        if (filterChange) {
+            filterChange = false;
+            initRender();
+        }
         GLES20.glUseProgram(program);
         GLES20.glViewport(0,0, screenWidth, screenHeight);
+        filter.update();
         //使用矩阵变换
         GLES20.glUniformMatrix4fv(umatrix, 1, false, matrix, 0);
         ShaderUtils.renderTexture(vPosition, fPosition, vertexBuffer, fragmentBuffer);
@@ -142,5 +150,11 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
 
     public interface  OnSurfaceCreateListener{
         void onSurfaceCreate(SurfaceTexture surfaceTexture, int textureId);
+    }
+
+    public void setFilter(BaseGPUImageFilter filter) {
+        this.filterChange = true;
+        this.filter = filter;
+        filter.setIsMedia(true);
     }
 }

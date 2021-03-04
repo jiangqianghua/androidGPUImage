@@ -101,7 +101,7 @@ public class GPUImageRender implements GLSurfaceView.GLRender {
         program = ShaderUtils.createProgram(vertexSource, fragmentSource);
         vPosition = GLES20.glGetAttribLocation(program, "v_Position");
         fPosition = GLES20.glGetAttribLocation(program, "f_Position");
-        filter.setGPUImageRender(this);
+        filter.setProgram(program);
         filter.init();
     }
 

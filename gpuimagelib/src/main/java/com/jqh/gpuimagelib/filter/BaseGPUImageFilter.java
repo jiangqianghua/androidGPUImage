@@ -3,22 +3,26 @@ package com.jqh.gpuimagelib.filter;
 import android.content.Context;
 
 import com.jqh.gpuimagelib.R;
-import com.jqh.gpuimagelib.image.GPUImageRender;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
-
-import java.lang.ref.WeakReference;
 
 public class BaseGPUImageFilter {
     protected Context context;
 
     private boolean isMedia = false;
 
-
-    private void setIsMedia(boolean is) {
-        isMedia = is;
+    public boolean isMedia() {
+        return isMedia;
     }
 
-    protected WeakReference<GPUImageRender> gpuImageRenderRef;
+    public int program ;
+
+    public void setProgram(int program) {
+        this.program = program;
+    }
+
+    public void setIsMedia(boolean is) {
+        isMedia = is;
+    }
 
     public void init(){
 
@@ -28,12 +32,9 @@ public class BaseGPUImageFilter {
 
     }
 
-    public void setGPUImageRender(GPUImageRender render) {
-        this.gpuImageRenderRef = new WeakReference<GPUImageRender>(render);
-    }
 
     public int getProgram() {
-        return this.gpuImageRenderRef.get().program;
+        return program;
     }
 
     public BaseGPUImageFilter(Context context) {

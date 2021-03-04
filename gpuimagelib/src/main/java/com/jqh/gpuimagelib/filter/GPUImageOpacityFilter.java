@@ -35,7 +35,7 @@ public class GPUImageOpacityFilter extends BaseGPUImageFilter {
 
     @Override
     public String getFragmentSource() {
-        return ShaderUtils.getRawResource(context, R.raw.fragement_opacity_shader);
+        return ShaderUtils.getRawResource(context, isMedia() ? R.raw.fragement_opacity_shader_camera : R.raw.fragement_opacity_shader);
     }
 
     public void setOpacity(float opacity) {

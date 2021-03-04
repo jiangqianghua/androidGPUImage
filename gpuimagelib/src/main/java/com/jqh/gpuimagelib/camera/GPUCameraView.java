@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
 
+import com.jqh.gpuimagelib.filter.BaseGPUImageFilter;
+import com.jqh.gpuimagelib.image.GPUImageView;
 import com.jqh.gpuimagelib.opengl.GLSurfaceView;
 
 public class GPUCameraView extends GLSurfaceView {
@@ -98,5 +100,12 @@ public class GPUCameraView extends GLSurfaceView {
 
     public int getTextureId(){
         return textureId;
+    }
+
+    public GPUCameraView setFilter(BaseGPUImageFilter filter) {
+        if (filter != null && jqhCameraRender != null) {
+            jqhCameraRender.setFilter(filter);
+        }
+        return this;
     }
 }
