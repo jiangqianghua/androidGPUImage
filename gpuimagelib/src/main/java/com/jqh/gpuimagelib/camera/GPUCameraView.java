@@ -108,4 +108,5 @@ public class GPUCameraView extends GLSurfaceView {
         }
         return this;
     }
+
 }
