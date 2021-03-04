@@ -11,6 +11,13 @@ import java.lang.ref.WeakReference;
 public class BaseGPUImageFilter {
     protected Context context;
 
+    private boolean isMedia = false;
+
+
+    private void setIsMedia(boolean is) {
+        isMedia = is;
+    }
+
     protected WeakReference<GPUImageRender> gpuImageRenderRef;
 
     public void init(){
@@ -34,10 +41,10 @@ public class BaseGPUImageFilter {
     }
 
     public String getVertexSource(){
-        return  ShaderUtils.getRawResource(context, R.raw.vertex_shader);
+        return  ShaderUtils.getRawResource(context, isMedia ? R.raw.vertex_shader_camera : R.raw.vertex_shader );
     }
 
     public String getFragmentSource(){
-        return ShaderUtils.getRawResource(context, R.raw.fragment_shader);
+        return ShaderUtils.getRawResource(context, isMedia ? R.raw.fragment_shader_camera : R.raw.fragment_shader);
     }
 }

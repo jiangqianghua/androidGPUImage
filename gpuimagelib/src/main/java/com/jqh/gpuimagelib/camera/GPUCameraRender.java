@@ -66,7 +66,7 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
 
     private void initRender(){
         String vertexSource = ShaderUtils.getRawResource(context, R.raw.vertex_shader_camera);
-        String fragmentSource = ShaderUtils.getRawResource(context, R.raw.vertex_shader_camera);
+        String fragmentSource = ShaderUtils.getRawResource(context, R.raw.fragment_shader_camera);
         program = ShaderUtils.createProgram(vertexSource, fragmentSource);
         vPosition = GLES20.glGetAttribLocation(program, "v_Position");
         fPosition = GLES20.glGetAttribLocation(program, "f_Position");
@@ -121,7 +121,7 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
     public void onDrawFrame() {
         surfaceTexture.updateTexImage();
         ShaderUtils.clearScreenDefault();
-        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, cameraTextureId);
+//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, cameraTextureId);
 
         GLES20.glUseProgram(program);
         GLES20.glViewport(0,0, screenWidth, screenHeight);
@@ -129,7 +129,7 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
         GLES20.glUniformMatrix4fv(umatrix, 1, false, matrix, 0);
         ShaderUtils.renderTexture(vPosition, fPosition, vertexBuffer, fragmentBuffer);
         //  解除绑定纹理
-        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, 0);
+//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
     }
 
 
