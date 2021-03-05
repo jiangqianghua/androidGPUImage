@@ -25,6 +25,13 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
             1f, 1f
     };
 
+    private float[] vertexData2 = {
+            -0.5f, -0.5f,
+            0.5f, -0.5f,
+            -0.5f, 0.5f,
+            0.5f, 0.5f
+    };
+
     private float[] fragmentData = {
 
             0f, 1f,
@@ -34,6 +41,8 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
     };
 
     private FloatBuffer vertexBuffer ;
+
+    private FloatBuffer vertexBuffer2 ;
 
     private FloatBuffer fragmentBuffer;
 
@@ -58,6 +67,8 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
         filter.setIsMedia(true);
         // 获取顶点和纹理buffer
         vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
+
+        vertexBuffer2 = ShaderUtils.allocateBuffer(vertexData2);
         fragmentBuffer = ShaderUtils.allocateBuffer(fragmentData);
 
         screenHeight = DisplayUtil.getScreenHeight(context);
@@ -136,6 +147,8 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
         //使用矩阵变换
         GLES20.glUniformMatrix4fv(umatrix, 1, false, matrix, 0);
         ShaderUtils.renderTexture(vPosition, fPosition, vertexBuffer, fragmentBuffer);
+
+        ShaderUtils.renderTexture(vPosition, fPosition, vertexBuffer2, fragmentBuffer);
         //  解除绑定纹理
 //        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
     }
