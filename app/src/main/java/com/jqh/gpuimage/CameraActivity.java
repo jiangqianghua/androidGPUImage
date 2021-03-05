@@ -28,7 +28,7 @@ public class CameraActivity extends AppCompatActivity {
         gpuCameraView = findViewById(R.id.gpucamera_view);
 
         opacityFilter = new GPUImageOpacityFilter(this, 0.5f);
-        gpuCameraView.setFilter(opacityFilter);
+        gpuCameraView.addFilter(opacityFilter); //.addFilter(new GPUImageZoomBlurFilter(this,new PointF(0.5f, 0.5f), 1.0f));
 
 //        gpuCameraView.setFilter(new GPUImageZoomBlurFilter(this,new PointF(0.5f, 0.5f), 1.0f));
 

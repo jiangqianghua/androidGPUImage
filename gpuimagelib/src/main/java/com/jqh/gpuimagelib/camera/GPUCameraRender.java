@@ -86,7 +86,7 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
         //当有数据后，会回调监听onFrameAvailable
         surfaceTexture.setOnFrameAvailableListener(this);
         // 把surfaceTexture 回调给外层
-        if (onSurfaceCreateListener != null) onSurfaceCreateListener.onSurfaceCreate(surfaceTexture, 0);
+        if (onSurfaceCreateListener != null) onSurfaceCreateListener.onSurfaceCreate(surfaceTexture, cameraTextureId);
         //  解除cameraTextureId绑定
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, 0);
     }
