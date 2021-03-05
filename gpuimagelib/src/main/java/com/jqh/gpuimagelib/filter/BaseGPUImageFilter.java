@@ -23,7 +23,7 @@ public class BaseGPUImageFilter {
     };
 
 
-    protected float[] fragmentData = {
+    public float[] fragmentData = {
 
             0f, 1f,
             1f, 1f,

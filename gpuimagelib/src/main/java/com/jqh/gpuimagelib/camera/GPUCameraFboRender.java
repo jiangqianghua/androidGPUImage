@@ -1,19 +1,17 @@
-package com.jqh.gpuimagelib.encodec;
+package com.jqh.gpuimagelib.camera;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
 
 import com.jqh.gpuimagelib.R;
-import com.jqh.gpuimagelib.opengl.GLSurfaceView;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class JqhEncodecRender implements GLSurfaceView.GLRender {
-
+public class GPUCameraFboRender {
     private Context context;
     // 绘制上半部分
     private float[] vertexData = {
@@ -26,7 +24,12 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
             0f, 0f,
             0f, 0f,
             0f, 0f,
-            0f, 0f
+            0f, 0f,
+
+            -1f, -1f,
+            1f, -1f,
+            -1f, 1f,
+            1f, 1f,
     };
 
     private float[] fragmentData = {
@@ -45,6 +48,7 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
 
     private int textureId; // 纹理id
 
+    private int sampler;
 
     // 顶点缓存数据
     private int vboId;
@@ -55,17 +59,17 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
     // 水印纹理
     private int bitmapTextureid;
 
-    public JqhEncodecRender(Context context, int textureid) {
+    private int imageTextid;
+
+    public GPUCameraFboRender(Context context) {
         this.context = context;
-        this.textureId = textureid;
+
 
         // 加载文字纹理
         bitmap = ShaderUtils.createTextImage("我爱熊毛毛", 50, "#ff0000", "#00000000", 0);
         float r = 1.0f * bitmap.getWidth() / bitmap.getHeight();
-        float h = 0.1f;
-        float w = r * h;
-        // 确定0.8位置
-        // 开始填充坐标
+        float w = r * 0.1f;
+
         vertexData[8] = 0.8f - w;
         vertexData[9] = -0.8f;
 
@@ -93,8 +97,8 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
 
     }
 
-    @Override
-    public void onSurfaceCreate() {
+    public void onCreate(){
+        // 设置一下两个可以让水印背景透明
         GLES20.glEnable (GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -106,6 +110,8 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
         // 10 得到着色器中的属性
         vPosition = GLES20.glGetAttribLocation(program, "v_Position");
         fPosition = GLES20.glGetAttribLocation(program, "f_Position");
+
+        sampler = GLES20.glGetUniformLocation(program, "sTexture");
 
 
         // 利用vbo缓存顶点数据
@@ -121,24 +127,27 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
         GLES20.glBufferSubData(GLES20.GL_ARRAY_BUFFER, vertexData.length * 4, fragmentData.length * 4, fragmentBuffer);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
 
+        // 绘制两个纹理， 获取纹理一定要在线程里面，否则无效
         bitmapTextureid = ShaderUtils.loadBitmapTexture(bitmap);
+
+//        imageTextid = ShaderUtils.loadTextrue(context,R.mipmap.tupian);
     }
 
-    @Override
-    public void onSurfaceChanged(int width, int height) {
+    public void onChange(int width, int height) {
         GLES20.glViewport(0,0, width, height);
     }
 
-    @Override
-    public void onDrawFrame() {
+    public void onDraw(int textureId){
+
         // 用颜色刷新
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glClearColor(1f, 0f, 0f,1f);
         // 11 使用源程序
         GLES20.glUseProgram(program);
-
         // 绑定vbo
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vboId);
+
+        //  绘制FBO纹理
         // 重新绑定纹理, 绑定到imgTextureId，然帧缓存来处理
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
 
@@ -149,6 +158,7 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
         GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 8 , 0);
 
 
+
         // 14 使得纹理属性数组有效
         GLES20.glEnableVertexAttribArray(fPosition);
         // 15  为纹理属性赋值
@@ -158,28 +168,57 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4); // 最后一个参数设置绘制几个点
 
 
-        // 绘制水印纹理
+
+        // ------------------绘制水印纹理
         // 重新绑定纹理, 绑定到imgTextureId，然帧缓存来处理
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, bitmapTextureid);
+
 
         // 12 使得顶点属性数组有效
         GLES20.glEnableVertexAttribArray(vPosition);
         // 13 为顶点属性赋值
         GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 8 , 32); //4 * 8
+
+
+
         // 14 使得纹理属性数组有效
         GLES20.glEnableVertexAttribArray(fPosition);
         // 15  为纹理属性赋值
         GLES20.glVertexAttribPointer(fPosition, 2, GLES20.GL_FLOAT, false, 8 , vertexData.length * 4);
+
         // 16 绘制图形
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4); // 最后一个参数设置绘制几个点
 
+        /**
+
+         // -----------------绘制图片纹理
+         // 重新绑定纹理, 绑定到imgTextureId，然帧缓存来处理
+         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, imageTextid);
 
 
+         // 12 使得顶点属性数组有效
+         GLES20.glEnableVertexAttribArray(vPosition);
+         // 13 为顶点属性赋值
+         GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 8 , 64); //4 * 8
+
+
+
+         // 14 使得纹理属性数组有效
+         GLES20.glEnableVertexAttribArray(fPosition);
+         // 15  为纹理属性赋值
+         GLES20.glVertexAttribPointer(fPosition, 2, GLES20.GL_FLOAT, false, 8 , vertexData.length * 4);
+
+         // 16 绘制图形
+         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4); // 最后一个参数设置绘制几个点
+
+         **/
 
         //  解除绑定纹理
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 
         // 解除vbo绑定
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+
+
     }
 }

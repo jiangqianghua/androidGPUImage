@@ -14,7 +14,7 @@ import com.jqh.gpuimagelib.opengl.GLSurfaceView;
 
 public class GPUCameraView extends GLSurfaceView {
 
-    private GPUCameraRender jqhCameraRender;
+    private GPUCameraRender1 jqhCameraRender;
     private GPUCamera jqhCamera ;
     private int textureId = -1;
 
@@ -30,12 +30,12 @@ public class GPUCameraView extends GLSurfaceView {
     public GPUCameraView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        jqhCameraRender = new GPUCameraRender(context);
+        jqhCameraRender = new GPUCameraRender1(context);
         jqhCamera = new GPUCamera(context);
 
         setRender(jqhCameraRender);
         previewAngle(context);
-        jqhCameraRender.setOnSurfaceCreateListener(new GPUCameraRender.OnSurfaceCreateListener() {
+        jqhCameraRender.setOnSurfaceCreateListener(new GPUCameraRender1.OnSurfaceCreateListener() {
             @Override
             public void onSurfaceCreate(SurfaceTexture surfaceTexture, int _textureId) {
                 jqhCamera.initCamera(surfaceTexture, cameraId);
@@ -45,6 +45,7 @@ public class GPUCameraView extends GLSurfaceView {
         });
 
     }
+    
 
     public void onDestory(){
         if (jqhCamera != null) {
