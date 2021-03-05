@@ -25,12 +25,13 @@ public class RenderUtils {
 
     public static int[] createFBO(int w, int h){
 
+        // 利用fbo缓存帧数据
         int[] fbos = new int[1];
         GLES20.glGenBuffers(1, fbos, 0);
         int fboId = fbos[0];
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, fboId);
 
-
+        // 创建和绑定纹理
         int[] textureIds = new int[1];
         GLES20.glGenTextures(1, textureIds, 0);
         int fboTextureId = textureIds[0];

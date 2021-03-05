@@ -80,7 +80,7 @@ public class GPUCameraRender1 implements GLSurfaceView.GLRender, SurfaceTexture.
         vboId = RenderUtils.createVBOId(baseGPUImageFilter.vertexData, baseGPUImageFilter.fragmentData,
                 baseGPUImageFilter.getVertexBuffer(), baseGPUImageFilter.getFragmentBuffer());
 
-        int[] fboData = RenderUtils.createFBO(width, height);
+        int[] fboData = RenderUtils.createFBO(screenWidth, screenHeight);
         fboId = fboData[0];
         fboTextureId = fboData[1];
 
@@ -119,14 +119,14 @@ public class GPUCameraRender1 implements GLSurfaceView.GLRender, SurfaceTexture.
         ShaderUtils.clearScreenDefault();
 //        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, cameraTextureId);
 
-
+        GLES20.glViewport(0,0, screenWidth, screenHeight);
         for (BaseGPUImageFilter filter : filterList) {
             if (filter.isFilterChange()){
                 initRender(filter);
             }
 
             GLES20.glUseProgram(filter.program);
-            GLES20.glViewport(0,0, screenWidth, screenHeight);
+
             //使用矩阵变换
             GLES20.glUniformMatrix4fv(filter.getUmatrix(), 1, false, matrix, 0);
             // 绑定fbo
