@@ -12,80 +12,43 @@ import com.jqh.gpuimagelib.opengl.ShaderUtils;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
 
 import java.nio.FloatBuffer;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.OnFrameAvailableListener {
     private Context context;
-    private boolean filterChange = false;
-    BaseGPUImageFilter filter;
-    // 多绘制，填入两次坐标
-    private float[] vertexData = {
-            -1f, -1f,
-            1f, -1f,
-            -1f, 1f,
-            1f, 1f
-    };
 
-    private float[] vertexData2 = {
-            -0.5f, -0.5f,
-            0.5f, -0.5f,
-            -0.5f, 0.5f,
-            0.5f, 0.5f
-    };
+    private List<BaseGPUImageFilter> filterList;
 
-    private float[] fragmentData = {
-
-            0f, 1f,
-            1f, 1f,
-            0f, 0f,
-            1f, 0f
-    };
-
-    private FloatBuffer vertexBuffer ;
-
-    private FloatBuffer vertexBuffer2 ;
-
-    private FloatBuffer fragmentBuffer;
-
-    private int program ;
-    private int vPosition; //  顶点
-    private int fPosition; //  纹理
 
     private int cameraTextureId; //摄像头扩展纹理
     private SurfaceTexture surfaceTexture;
 
-    private int umatrix;
+
     private float[] matrix = new float[16];
 
     private int screenWidth ,screenHeight;
 
     private int width, height; // 实际surface大小
 
+    private BaseGPUImageFilter baseGPUImageFilter;
 
     public GPUCameraRender(Context context) {
         this.context = context;
-        filter = new BaseGPUImageFilter(context);
-        filter.setIsMedia(true);
-        // 获取顶点和纹理buffer
-        vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
-
-        vertexBuffer2 = ShaderUtils.allocateBuffer(vertexData2);
-        fragmentBuffer = ShaderUtils.allocateBuffer(fragmentData);
-
+        filterList = new CopyOnWriteArrayList();
+        baseGPUImageFilter = new BaseGPUImageFilter(context);
+        baseGPUImageFilter.setIsMedia(true);
+        filterList.add(baseGPUImageFilter);
         screenHeight = DisplayUtil.getScreenHeight(context);
         screenWidth = DisplayUtil.getScreenWidth(context);
 
     }
 
-    private void initRender(){
+    private void initRender(BaseGPUImageFilter filter){
 
-        String vertexSource = filter.getVertexSource();
-        String fragmentSource = filter.getFragmentSource();
-        program = ShaderUtils.createProgram(vertexSource, fragmentSource);
-        vPosition = GLES20.glGetAttribLocation(program, "v_Position");
-        fPosition = GLES20.glGetAttribLocation(program, "f_Position");
-        umatrix = GLES20.glGetUniformLocation(program, "u_Matrix");
-        filter.setProgram(program);
         filter.init();
+
+        filter.setFilterChange(false);
     }
     public void reSetMatrix(){
         Matrix.setIdentityM(matrix, 0);
@@ -102,7 +65,9 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
 
     @Override
     public void onSurfaceCreate() {
-        initRender();
+        for (BaseGPUImageFilter filter : filterList) {
+            initRender(filter);
+        }
         // 创建摄像头扩展纹理
         int[] textureidseos =new int[1];
         GLES20.glGenTextures(1, textureidseos, 0);
@@ -137,18 +102,23 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
         surfaceTexture.updateTexImage();
         ShaderUtils.clearScreenDefault();
 //        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, cameraTextureId);
-        if (filterChange) {
-            filterChange = false;
-            initRender();
-        }
-        GLES20.glUseProgram(program);
-        GLES20.glViewport(0,0, screenWidth, screenHeight);
-        filter.update();
-        //使用矩阵变换
-        GLES20.glUniformMatrix4fv(umatrix, 1, false, matrix, 0);
-        ShaderUtils.renderTexture(vPosition, fPosition, vertexBuffer, fragmentBuffer);
 
-        ShaderUtils.renderTexture(vPosition, fPosition, vertexBuffer2, fragmentBuffer);
+        GLES20.glViewport(0,0, screenWidth, screenHeight);
+        for (BaseGPUImageFilter filter : filterList) {
+            if (filter.isFilterChange()){
+                initRender(filter);
+            }
+
+            GLES20.glUseProgram(filter.program);
+
+            filter.update();
+            //使用矩阵变换
+            GLES20.glUniformMatrix4fv(filter.getUmatrix(), 1, false, matrix, 0);
+            ShaderUtils.renderTexture(filter.getvPosition(), filter.getfPosition(), filter.getVertexBuffer(), filter.getFragmentBuffer());
+        }
+
+
+
         //  解除绑定纹理
 //        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
     }
@@ -165,9 +135,8 @@ public class GPUCameraRender  implements GLSurfaceView.GLRender, SurfaceTexture.
         void onSurfaceCreate(SurfaceTexture surfaceTexture, int textureId);
     }
 
-    public void setFilter(BaseGPUImageFilter filter) {
-        this.filterChange = true;
-        this.filter = filter;
+    public void addFilter(BaseGPUImageFilter filter) {
+        filterList.add(filter);
         filter.setIsMedia(true);
     }
 }

@@ -11,9 +11,28 @@ public class GPUImageOpacityFilter extends BaseGPUImageFilter {
     private int opacityLocation;
     private float opacity;
     public GPUImageOpacityFilter(Context context, float opacity) {
+
+
         super(context);
+        vertexData = new float[]{
+                -0.5f, -0.5f,
+                0.5f, -0.5f,
+                -0.5f, 0.5f,
+                0.5f, 0.5f
+        };
+
+        fragmentData = new float[] {
+                0f, 0.5f,
+                0.5f, 0.5f,
+                0f, 0f,
+                0.5f, 0f
+
+        };
         this.opacity = opacity;
+        vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
+        fragmentBuffer = ShaderUtils.allocateBuffer(fragmentData);
     }
+
 
 
     @Override

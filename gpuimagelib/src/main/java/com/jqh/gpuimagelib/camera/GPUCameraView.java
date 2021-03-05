@@ -102,9 +102,9 @@ public class GPUCameraView extends GLSurfaceView {
         return textureId;
     }
 
-    public GPUCameraView setFilter(BaseGPUImageFilter filter) {
+    public GPUCameraView addFilter(BaseGPUImageFilter filter) {
         if (filter != null && jqhCameraRender != null) {
-            jqhCameraRender.setFilter(filter);
+            jqhCameraRender.addFilter(filter);
         }
         return this;
     }

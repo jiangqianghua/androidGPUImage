@@ -1,14 +1,68 @@
 package com.jqh.gpuimagelib.filter;
 
 import android.content.Context;
+import android.opengl.GLES20;
 
 import com.jqh.gpuimagelib.R;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
 
+import java.nio.FloatBuffer;
+
 public class BaseGPUImageFilter {
     protected Context context;
 
+    private boolean filterChange = true;
+    private int vPosition; //  顶点
+    private int fPosition; //  纹理
     private boolean isMedia = false;
+    public float[] vertexData = {
+            -1f, -1f,
+            1f, -1f,
+            -1f, 1f,
+            1f, 1f
+    };
+
+
+    protected float[] fragmentData = {
+
+            0f, 1f,
+            1f, 1f,
+            0f, 0f,
+            1f, 0f
+    };
+
+    private int umatrix;
+    protected FloatBuffer vertexBuffer ;
+
+    protected FloatBuffer fragmentBuffer;
+
+    public FloatBuffer getVertexBuffer() {
+        return vertexBuffer;
+    }
+
+    public FloatBuffer getFragmentBuffer() {
+        return fragmentBuffer;
+    }
+
+    public void setFilterChange(boolean filterChange) {
+        this.filterChange = filterChange;
+    }
+
+    public boolean isFilterChange() {
+        return filterChange;
+    }
+
+    public int getvPosition() {
+        return vPosition;
+    }
+
+    public int getfPosition() {
+        return fPosition;
+    }
+
+    public int getUmatrix() {
+        return umatrix;
+    }
 
     public boolean isMedia() {
         return isMedia;
@@ -25,7 +79,14 @@ public class BaseGPUImageFilter {
     }
 
     public void init(){
-
+        String vertexSource = getVertexSource();
+        String fragmentSource = getFragmentSource();
+        program = ShaderUtils.createProgram(vertexSource, fragmentSource);
+        vPosition = GLES20.glGetAttribLocation(program, "v_Position");
+        fPosition = GLES20.glGetAttribLocation(program, "f_Position");
+        if (isMedia) {
+            umatrix = GLES20.glGetUniformLocation(program, "u_Matrix");
+        }
     }
 
     public void update(){
@@ -39,6 +100,10 @@ public class BaseGPUImageFilter {
 
     public BaseGPUImageFilter(Context context) {
         this.context = context;
+        // 获取顶点和纹理buffer
+        vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
+
+        fragmentBuffer = ShaderUtils.allocateBuffer(fragmentData);
     }
 
     public String getVertexSource(){
