@@ -3,6 +3,7 @@ package com.jqh.gpuimage;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -96,5 +97,11 @@ public class MediaRecordActivity extends AppCompatActivity {
         } else {
             return context.getCacheDir().getPath();
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        cameraView.previewAngle(this);
     }
 }
