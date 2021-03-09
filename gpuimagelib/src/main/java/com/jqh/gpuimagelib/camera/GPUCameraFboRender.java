@@ -18,24 +18,30 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class GPUCameraFboRender {
     private Context context;
     // 绘制上半部分
+//    private float[] vertexData = {
+//            -1f, -1f,
+//            1f, -1f,
+//            -1f, 1f,
+//            1f, 1f,
+//
+//            // 先占空位置，后面计算
+//            0f, 0f,
+//            0f, 0f,
+//            0f, 0f,
+//            0f, 0f,
+//
+//            -1f, -1f,
+//            1f, -1f,
+//            -1f, 1f,
+//            1f, 1f,
+//    };
+
     private float[] vertexData = {
             -1f, -1f,
             1f, -1f,
             -1f, 1f,
-            1f, 1f,
-
-            // 先占空位置，后面计算
-            0f, 0f,
-            0f, 0f,
-            0f, 0f,
-            0f, 0f,
-
-            -1f, -1f,
-            1f, -1f,
-            -1f, 1f,
-            1f, 1f,
+            1f, 1f
     };
-
     private float[] fragmentData = {
             0f, 1f,
             1f, 1f,
@@ -79,17 +85,17 @@ public class GPUCameraFboRender {
         float r = 1.0f * bitmap.getWidth() / bitmap.getHeight();
         float w = r * 0.1f;
 
-        vertexData[8] = 0.8f - w;
-        vertexData[9] = -0.8f;
-
-        vertexData[10] = 0.8f;
-        vertexData[11] = -0.8f;
-
-        vertexData[12] = 0.8f - w;
-        vertexData[13] = -0.7f;
-
-        vertexData[14] = 0.8f;
-        vertexData[15] = -0.7f;
+//        vertexData[8] = 0.8f - w;
+//        vertexData[9] = -0.8f;
+//
+//        vertexData[10] = 0.8f;
+//        vertexData[11] = -0.8f;
+//
+//        vertexData[12] = 0.8f - w;
+//        vertexData[13] = -0.7f;
+//
+//        vertexData[14] = 0.8f;
+//        vertexData[15] = -0.7f;
 
         baseGPUImageFilter = new BaseGPUImageFilter(context);
         filterList.add(baseGPUImageFilter);
@@ -184,19 +190,27 @@ public class GPUCameraFboRender {
 //        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4); // 最后一个参数设置绘制几个点
 
 
+        int i = 0 ;
         for (BaseGPUImageFilter filter : filterList) {
+            if (i == 0) continue;
+            i++;
             if (filter.isFilterChange()){
                 initRender(filter);
             }
 
+            if (filter.getTexture() > 0) {
+                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, filter.getTexture());
+            }
             GLES20.glUseProgram(filter.program);
 
 
             filter.update();
 
             ShaderUtils.renderTexture(filter.getvPosition(), filter.getfPosition(), filter.vertexData);
-
-
+//            ShaderUtils.renderTexture(filter.getvPosition(), filter.getfPosition(), filter.getVertexBuffer(), filter.getFragmentBuffer());
+            if (filter.getTexture() > 0) {
+                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+            }
         }
 
 

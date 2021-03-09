@@ -113,4 +113,8 @@ public class BaseGPUImageFilter {
     public String getFragmentSource(){
         return ShaderUtils.getRawResource(context, isMedia ? R.raw.fragment_shader_camera : R.raw.fragment_shader);
     }
+
+    public int getTexture(){
+        return -1;
+    }
 }
