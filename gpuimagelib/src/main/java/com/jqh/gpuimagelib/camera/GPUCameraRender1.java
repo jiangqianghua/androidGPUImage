@@ -169,7 +169,9 @@ public class GPUCameraRender1 implements GLSurfaceView.GLRender, SurfaceTexture.
     }
 
     public void addFilter(BaseGPUImageFilter filter) {
-        filterList.add(filter);
-        filter.setIsMedia(true);
+//        filterList.add(filter);
+//        filter.setIsMedia(true);
+
+        cameraFboRender.addFilter(filter);
     }
 }

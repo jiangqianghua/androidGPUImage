@@ -13,6 +13,8 @@ import com.jqh.gpuimagelib.audio.AudioRecordUtil;
 import com.jqh.gpuimagelib.camera.GPUCameraView;
 import com.jqh.gpuimagelib.encodec.JqhBaseMediaEncoder;
 import com.jqh.gpuimagelib.encodec.JqhMediaEncodec;
+import com.jqh.gpuimagelib.filter.GPUImageGreyFilter;
+import com.jqh.gpuimagelib.filter.GPUImageOpacityFilter;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
 
 import java.io.File;
@@ -37,6 +39,8 @@ public class MediaRecordActivity extends AppCompatActivity {
         recordBtn = findViewById(R.id.record_btn);
         String cachePath = getDiskCachePath(getApplicationContext());
         path = cachePath + File.separator + "record.mp4" ;
+
+        cameraView.addFilter(new GPUImageGreyFilter(this));
 
     }
 
