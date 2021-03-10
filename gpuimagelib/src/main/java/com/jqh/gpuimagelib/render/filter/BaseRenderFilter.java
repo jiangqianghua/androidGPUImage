@@ -10,7 +10,9 @@ import java.nio.FloatBuffer;
 
 public class BaseRenderFilter {
 
-    private Context context;
+    private boolean inited = false;
+
+    protected Context context;
 
     // 绘制上半部分
     private float[] vertexData = {
@@ -65,14 +67,16 @@ public class BaseRenderFilter {
     public BaseRenderFilter(Context context) {
         this.context = context;
         vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
-
         fragmentBuffer = ShaderUtils.allocateBuffer(fragmentData);
+        inited = false;
     }
 
     public void init(){
+        if (inited) return;
         program = ShaderUtils.createProgram(getVertexSource(), getFragmentSource());
         vPosition = GLES20.glGetAttribLocation(program, "v_Position");
         fPosition = GLES20.glGetAttribLocation(program, "f_Position");
+        inited = true;
     }
 
     public void update(){
@@ -80,11 +84,11 @@ public class BaseRenderFilter {
     }
 
 
-    private String getVertexSource(){
+    protected String getVertexSource(){
         return  ShaderUtils.getRawResource(context,  R.raw.vertex_shader );
     }
 
-    private String getFragmentSource(){
+    protected String getFragmentSource(){
         return ShaderUtils.getRawResource(context, R.raw.fragment_shader);
     }
 

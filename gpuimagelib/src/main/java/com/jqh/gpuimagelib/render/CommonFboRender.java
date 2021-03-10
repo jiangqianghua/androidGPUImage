@@ -37,7 +37,7 @@ public class CommonFboRender {
         //  绘制FBO纹理
         // 重新绑定纹理, 绑定到imgTextureId，然帧缓存来处理
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
-
+        baseRenderFilter.update();
 
         // 12 使得顶点属性数组有效
         GLES20.glEnableVertexAttribArray(baseRenderFilter.getvPosition());
@@ -62,6 +62,7 @@ public class CommonFboRender {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
 
-
-
+    public void setFilter(BaseRenderFilter baseRenderFilter) {
+        this.baseRenderFilter = baseRenderFilter;
+    }
 }

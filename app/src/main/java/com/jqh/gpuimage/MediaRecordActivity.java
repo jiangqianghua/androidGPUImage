@@ -14,12 +14,14 @@ import android.widget.Button;
 
 import com.jqh.gpuimagelib.audio.AudioRecordUtil;
 import com.jqh.gpuimagelib.camera.GPUCameraView;
+import com.jqh.gpuimagelib.camera.GPUCameraView1;
 import com.jqh.gpuimagelib.encodec.JqhBaseMediaEncoder;
 import com.jqh.gpuimagelib.encodec.JqhMediaEncodec;
 import com.jqh.gpuimagelib.filter.GPUImageGreyFilter;
 import com.jqh.gpuimagelib.filter.GPUImageImgFliter;
 import com.jqh.gpuimagelib.filter.GPUImageOpacityFilter;
 import com.jqh.gpuimagelib.filter.GPUImageTextFilter;
+import com.jqh.gpuimagelib.render.filter.OpacityRenderFilter;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
 
 import java.io.File;
@@ -29,7 +31,7 @@ public class MediaRecordActivity extends AppCompatActivity {
     private String path;
     AudioRecordUtil audioRecordUtil;
     private Button recordBtn;
-    private GPUCameraView cameraView;
+    private GPUCameraView1 cameraView;
 
     private Context getContext(){
         return this;
@@ -44,11 +46,11 @@ public class MediaRecordActivity extends AppCompatActivity {
         recordBtn = findViewById(R.id.record_btn);
         String cachePath = getDiskCachePath(getApplicationContext());
         path = cachePath + File.separator + "record.mp4" ;
-        cameraView.addFilter(new GPUImageGreyFilter(this));
-        cameraView.addFilter(new GPUImageTextFilter(this,"我爱熊毛毛"));
-
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a);
-        cameraView.addFilter(new GPUImageImgFliter(this, bitmap));
+        cameraView.addFilter(new OpacityRenderFilter(this, 0.5f));
+//        cameraView.addFilter(new GPUImageTextFilter(this,"我爱熊毛毛"));
+//
+//        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a);
+//        cameraView.addFilter(new GPUImageImgFliter(this, bitmap));
 
     }
 

@@ -9,33 +9,34 @@ import android.view.Surface;
 import android.view.WindowManager;
 
 import com.jqh.gpuimagelib.filter.BaseGPUImageFilter;
-import com.jqh.gpuimagelib.image.GPUImageView;
 import com.jqh.gpuimagelib.opengl.GLSurfaceView;
+import com.jqh.gpuimagelib.render.CommonFboRender;
+import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
 
-public class GPUCameraView extends GLSurfaceView {
+public class GPUCameraView1 extends GLSurfaceView {
 
-    private GPUCameraRender jqhCameraRender;
+    private GPUCameraRender1 jqhCameraRender;
     private GPUCamera jqhCamera ;
     private int textureId = -1;
 
     private int cameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
-    public GPUCameraView(Context context) {
+    public GPUCameraView1(Context context) {
         this(context, null);
     }
 
-    public GPUCameraView(Context context, AttributeSet attrs) {
+    public GPUCameraView1(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public GPUCameraView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GPUCameraView1(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        jqhCameraRender = new GPUCameraRender(context);
+        jqhCameraRender = new GPUCameraRender1(context);
         jqhCamera = new GPUCamera(context);
 
         setRender(jqhCameraRender);
         previewAngle(context);
-        jqhCameraRender.setOnSurfaceCreateListener(new GPUCameraRender.OnSurfaceCreateListener() {
+        jqhCameraRender.setOnSurfaceCreateListener(new GPUCameraRender1.OnSurfaceCreateListener() {
             @Override
             public void onSurfaceCreate(SurfaceTexture surfaceTexture, int _textureId) {
                 jqhCamera.initCamera(surfaceTexture, cameraId);
@@ -103,7 +104,7 @@ public class GPUCameraView extends GLSurfaceView {
         return textureId;
     }
 
-    public GPUCameraView addFilter(BaseGPUImageFilter filter) {
+    public GPUCameraView1 addFilter(BaseRenderFilter filter) {
         if (filter != null && jqhCameraRender != null) {
             jqhCameraRender.addFilter(filter);
         }

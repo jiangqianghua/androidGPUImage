@@ -79,6 +79,7 @@ public class BaseGPUImageFilter {
     }
 
     public void init(){
+        if (isFilterChange()) return;
         String vertexSource = getVertexSource();
         String fragmentSource = getFragmentSource();
         program = ShaderUtils.createProgram(vertexSource, fragmentSource);
