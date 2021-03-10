@@ -12,6 +12,10 @@ public class BaseRenderFilter {
 
     private boolean inited = false;
 
+    public boolean isInited() {
+        return inited;
+    }
+
     protected Context context;
 
     // 绘制上半部分

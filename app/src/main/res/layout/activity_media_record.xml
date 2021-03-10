@@ -5,10 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MediaRecordActivity">
-    <com.jqh.gpuimagelib.camera.GPUCameraView1
+    <com.jqh.gpuimagelib.camera.GPUCameraView
         android:id="@+id/camera_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
+
+    <LinearLayout
+        android:id="@+id/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="默认"
+            android:onClick="defaultFilterClick"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="透明"
+            android:onClick="opacityFilterClick"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="黑白"
+            android:onClick="greyFilterClick"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/record_btn"
@@ -16,5 +42,5 @@
         android:layout_height="wrap_content"
         android:text="开始录制"
         android:onClick="record"
-        android:layout_alignParentBottom="true"/>
+        android:layout_above="@id/tools" />
 </RelativeLayout>

@@ -3,13 +3,11 @@ package com.jqh.gpuimage;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.Configuration;
-import android.graphics.PointF;
 import android.os.Bundle;
 import android.widget.SeekBar;
 
 import com.jqh.gpuimagelib.camera.GPUCameraView;
 import com.jqh.gpuimagelib.filter.GPUImageOpacityFilter;
-import com.jqh.gpuimagelib.filter.GPUImageZoomBlurFilter;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -28,7 +26,7 @@ public class CameraActivity extends AppCompatActivity {
         gpuCameraView = findViewById(R.id.gpucamera_view);
 
         opacityFilter = new GPUImageOpacityFilter(this, 0.5f);
-        gpuCameraView.addFilter(opacityFilter); //.addFilter(new GPUImageZoomBlurFilter(this,new PointF(0.5f, 0.5f), 1.0f));
+//        gpuCameraView.addFilter(opacityFilter); //.addFilter(new GPUImageZoomBlurFilter(this,new PointF(0.5f, 0.5f), 1.0f));
 
 //        gpuCameraView.setFilter(new GPUImageZoomBlurFilter(this,new PointF(0.5f, 0.5f), 1.0f));
 

@@ -27,6 +27,10 @@ public class CommonFboRender {
     }
 
     public void onDraw(int textureId){
+
+        if (!baseRenderFilter.isInited()) {
+            onCreate();
+        }
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glClearColor(1f, 0f, 0f,1f);
 //        // 11 使用源程序
