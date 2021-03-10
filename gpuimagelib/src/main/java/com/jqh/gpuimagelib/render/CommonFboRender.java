@@ -4,7 +4,10 @@ import android.content.Context;
 import android.opengl.GLES20;
 
 import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
+import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.utils.RenderUtils;
+
+import java.util.List;
 
 // 通用渲染器
 public class CommonFboRender {
@@ -13,6 +16,8 @@ public class CommonFboRender {
     private int vboId = 0;
 
     private BaseRenderFilter baseRenderFilter;
+
+    private List<BaseTexture> baseTextureList;
 
     public void init(Context context){
         this.context = context;

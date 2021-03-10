@@ -5,12 +5,19 @@ import android.opengl.GLES20;
 
 import com.jqh.gpuimagelib.R;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
+import com.jqh.gpuimagelib.utils.VertexUtils;
 
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BaseRenderFilter {
 
     private boolean inited = false;
+
+    private static final String BASE_KEY = "basekey";
+
+    private List<VertexDataBean> vertextDataList;
 
     public boolean isInited() {
         return inited;
@@ -70,6 +77,12 @@ public class BaseRenderFilter {
 
     public BaseRenderFilter(Context context) {
         this.context = context;
+        String key = BASE_KEY;
+        float[] vertex = VertexUtils.getInitData();
+        VertexDataBean vertexDataBean = new VertexDataBean(key, vertex);
+        vertextDataList = new ArrayList<>();
+        vertextDataList.add(vertexDataBean);
+        vertexData = VertexUtils.converToVextureData(vertextDataList);
         vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
         fragmentBuffer = ShaderUtils.allocateBuffer(fragmentData);
         inited = false;
@@ -95,5 +108,7 @@ public class BaseRenderFilter {
     protected String getFragmentSource(){
         return ShaderUtils.getRawResource(context, R.raw.fragment_shader);
     }
+
+
 
 }
