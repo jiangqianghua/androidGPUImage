@@ -15,6 +15,7 @@ public class BaseRenderFilter {
 
     private boolean inited = false;
 
+
     private static final String BASE_KEY = "basekey";
 
     private List<VertexDataBean> vertextDataList;
@@ -109,6 +110,12 @@ public class BaseRenderFilter {
         return ShaderUtils.getRawResource(context, R.raw.fragment_shader);
     }
 
-
+    public void addVertexData(String key, float[] vertexData) {
+        VertexDataBean vertexDataBean = new VertexDataBean(key, vertexData);
+        vertextDataList.add(vertexDataBean);
+        vertexData = VertexUtils.converToVextureData(vertextDataList);
+        vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
+        inited = false;
+    }
 
 }

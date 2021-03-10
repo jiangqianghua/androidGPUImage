@@ -9,6 +9,7 @@ import com.jqh.gpuimagelib.opengl.GLSurfaceView;
 
 import com.jqh.gpuimagelib.render.CommonFboRender;
 import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
+import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 
 public class JqhEncodecRender implements GLSurfaceView.GLRender {
 
@@ -46,4 +47,11 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
     public void addFilter(BaseRenderFilter filter) {
         this.commonFboRender.setFilter(filter);
     }
+
+    public void addTexture(BaseTexture baseTexture) {
+        if (baseTexture != null){
+            commonFboRender.addTexture(baseTexture);
+        }
+    }
+
 }

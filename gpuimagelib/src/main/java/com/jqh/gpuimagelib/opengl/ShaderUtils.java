@@ -200,5 +200,23 @@ public class ShaderUtils {
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4); // 最后一个参数设置绘制几个点
     }
 
+    public static void renderTexture( int vPosition, int fPosition, float[] vertexData, int index) {
+
+
+        // 12 使得顶点属性数组有效
+        GLES20.glEnableVertexAttribArray(vPosition);
+        // 13 为顶点属性赋值
+        GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 8 , index * 4 * 8);
+
+
+
+        // 14 使得纹理属性数组有效
+        GLES20.glEnableVertexAttribArray(fPosition);
+        // 15  为纹理属性赋值
+        GLES20.glVertexAttribPointer(fPosition, 2, GLES20.GL_FLOAT, false, 8 , vertexData.length * 4);
+
+        // 16 绘制图形
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4); // 最后一个参数设置绘制几个点
+    }
 
 }

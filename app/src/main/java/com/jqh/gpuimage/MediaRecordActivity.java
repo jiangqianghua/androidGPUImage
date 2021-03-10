@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -17,6 +19,7 @@ import com.jqh.gpuimagelib.encodec.JqhMediaEncodec;
 import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
 import com.jqh.gpuimagelib.render.filter.GreyRenderFilter;
 import com.jqh.gpuimagelib.render.filter.OpacityRenderFilter;
+import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
 
 import java.io.File;
@@ -114,5 +117,11 @@ public class MediaRecordActivity extends AppCompatActivity {
     public void greyFilterClick(View view) {
         cameraView.addFilter(new GreyRenderFilter(this));
         jqhMediaEncodec.addFilter(new GreyRenderFilter(this));
+    }
+
+    public void imgTextureClick(View view) {
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a);
+        cameraView.addTexture(new BaseTexture(this, "123", bitmap));
+        jqhMediaEncodec.addTexture(new BaseTexture(this, "123", bitmap));
     }
 }

@@ -10,6 +10,7 @@ import android.view.WindowManager;
 
 import com.jqh.gpuimagelib.opengl.GLSurfaceView;
 import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
+import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 
 public class GPUCameraView extends GLSurfaceView {
 
@@ -107,6 +108,12 @@ public class GPUCameraView extends GLSurfaceView {
             jqhCameraRender.addFilter(filter);
         }
         return this;
+    }
+
+    public void addTexture(BaseTexture baseTexture) {
+        if (baseTexture != null){
+            jqhCameraRender.addTexture(baseTexture);
+        }
     }
 
 }

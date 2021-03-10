@@ -10,6 +10,7 @@ import com.jqh.gpuimagelib.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.opengl.GLSurfaceView;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
 import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
+import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
 import com.jqh.gpuimagelib.utils.RenderUtils;
 
@@ -162,5 +163,11 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
 //        filter.setIsMedia(true);
 
         cameraFboRender.addFilter(filter);
+    }
+
+    public void addTexture(BaseTexture baseTexture) {
+        if (baseTexture != null){
+            cameraFboRender.addTexture(baseTexture);
+        }
     }
 }
