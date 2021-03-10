@@ -103,13 +103,16 @@ public class MediaRecordActivity extends AppCompatActivity {
 
     public void defaultFilterClick(View view) {
         cameraView.addFilter(new BaseRenderFilter(this));
+        jqhMediaEncodec.addFilter(new BaseRenderFilter(this));
     }
 
     public void opacityFilterClick(View view) {
         cameraView.addFilter(new OpacityRenderFilter(this, 0.5f));
+        jqhMediaEncodec.addFilter(new OpacityRenderFilter(this, 0.5f));
     }
 
     public void greyFilterClick(View view) {
         cameraView.addFilter(new GreyRenderFilter(this));
+        jqhMediaEncodec.addFilter(new GreyRenderFilter(this));
     }
 }

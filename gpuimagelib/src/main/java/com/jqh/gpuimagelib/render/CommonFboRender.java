@@ -31,8 +31,6 @@ public class CommonFboRender {
         if (!baseRenderFilter.isInited()) {
             onCreate();
         }
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        GLES20.glClearColor(1f, 0f, 0f,1f);
 //        // 11 使用源程序
         GLES20.glUseProgram(baseRenderFilter.getProgram());
         // 绑定vbo
