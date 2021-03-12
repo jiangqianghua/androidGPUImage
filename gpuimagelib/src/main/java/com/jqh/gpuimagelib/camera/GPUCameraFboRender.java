@@ -48,4 +48,8 @@ public class GPUCameraFboRender {
             commonFboRender.addTexture(baseTexture);
         }
     }
+
+    public void removeTexture(String key) {
+        commonFboRender.removeTexture(key);
+    }
 }

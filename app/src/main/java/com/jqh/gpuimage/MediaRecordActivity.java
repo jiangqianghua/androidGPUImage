@@ -20,6 +20,7 @@ import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
 import com.jqh.gpuimagelib.render.filter.GreyRenderFilter;
 import com.jqh.gpuimagelib.render.filter.OpacityRenderFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
+import com.jqh.gpuimagelib.render.textrue.TextTexture;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
 
 import java.io.File;
@@ -30,6 +31,10 @@ public class MediaRecordActivity extends AppCompatActivity {
     AudioRecordUtil audioRecordUtil;
     private Button recordBtn;
     private GPUCameraView cameraView;
+
+    private String textureKey = "123";
+
+    private boolean isAddTexture = false;
 
 
     private Context getContext(){
@@ -120,8 +125,21 @@ public class MediaRecordActivity extends AppCompatActivity {
     }
 
     public void imgTextureClick(View view) {
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a);
-        cameraView.addTexture(new BaseTexture(this, "123", bitmap));
-        jqhMediaEncodec.addTexture(new BaseTexture(this, "123", bitmap));
+        if (!isAddTexture) {
+            isAddTexture = true;
+            Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a);
+            cameraView.addTexture(new BaseTexture(this, textureKey, bitmap));
+            jqhMediaEncodec.addTexture(new BaseTexture(this, textureKey, bitmap));
+        } else {
+            cameraView.removeTexture(textureKey);
+            jqhMediaEncodec.removeTexture(textureKey);
+            isAddTexture = false;
+        }
+
+    }
+
+    public void textTextureClick(View view) {
+        cameraView.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff"));
+//        jqhMediaEncodec.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff"));
     }
 }

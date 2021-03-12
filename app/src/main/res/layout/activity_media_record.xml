@@ -12,34 +12,47 @@
 
 
 
-    <LinearLayout
+    <HorizontalScrollView
         android:id="@+id/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp">
-        <Button
+        android:layout_alignParentBottom="true">
+        <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="默认"
-            android:onClick="defaultFilterClick"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="透明"
-            android:onClick="opacityFilterClick"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="黑白"
-            android:onClick="greyFilterClick"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="图片"
-            android:onClick="imgTextureClick"/>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="默认"
+                android:onClick="defaultFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="透明"
+                android:onClick="opacityFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="黑白"
+                android:onClick="greyFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="图片"
+                android:onClick="imgTextureClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="文字"
+                android:onClick="textTextureClick"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <Button
         android:id="@+id/record_btn"

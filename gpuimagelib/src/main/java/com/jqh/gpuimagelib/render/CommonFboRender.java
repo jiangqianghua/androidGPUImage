@@ -2,6 +2,7 @@ package com.jqh.gpuimagelib.render;
 
 import android.content.Context;
 import android.opengl.GLES20;
+import android.text.TextUtils;
 
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
 import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
@@ -10,6 +11,7 @@ import com.jqh.gpuimagelib.utils.RenderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 // 通用渲染器
 public class CommonFboRender {
@@ -19,7 +21,7 @@ public class CommonFboRender {
 
     private BaseRenderFilter baseRenderFilter;
 
-    private List<BaseTexture> baseTextureList = new ArrayList<>();
+    private List<BaseTexture> baseTextureList = new CopyOnWriteArrayList<>();
 
     public void init(Context context){
         this.context = context;
@@ -27,10 +29,9 @@ public class CommonFboRender {
     }
 
     public void onCreate(){
+        baseRenderFilter.init();
         vboId = RenderUtils.createVBOId(baseRenderFilter.getVertexData(), baseRenderFilter.getFragmentData(),
                 baseRenderFilter.getVertexBuffer(), baseRenderFilter.getFragmentBuffer());
-
-        baseRenderFilter.init();
     }
 
     public void onDraw(int textureId){
@@ -84,5 +85,15 @@ public class CommonFboRender {
     public void addTexture(BaseTexture baseTexture) {
         baseTextureList.add(baseTexture);
         baseRenderFilter.addVertexData(baseTexture.getId(), baseTexture.getVertexData());
+    }
+
+    public void removeTexture(String id) {
+        for (BaseTexture baseTexture : baseTextureList) {
+            if (TextUtils.equals(id, baseTexture.getId())) {
+                baseTextureList.remove(baseTexture);
+                baseRenderFilter.removeVertextData(id);
+                return;
+            }
+        }
     }
 }

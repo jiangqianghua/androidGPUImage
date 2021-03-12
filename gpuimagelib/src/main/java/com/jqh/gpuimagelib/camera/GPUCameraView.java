@@ -116,4 +116,8 @@ public class GPUCameraView extends GLSurfaceView {
         }
     }
 
+    public void removeTexture(String key) {
+        jqhCameraRender.removeTexture(key);
+    }
+
 }

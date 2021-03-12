@@ -170,4 +170,8 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
             cameraFboRender.addTexture(baseTexture);
         }
     }
+
+    public void removeTexture(String key) {
+        cameraFboRender.removeTexture(key);
+    }
 }

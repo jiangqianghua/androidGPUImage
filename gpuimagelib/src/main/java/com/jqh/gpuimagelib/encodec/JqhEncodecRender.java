@@ -54,4 +54,8 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
         }
     }
 
+    public void removeTexture(String key) {
+        commonFboRender.removeTexture(key);
+    }
+
 }

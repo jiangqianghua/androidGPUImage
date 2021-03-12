@@ -26,4 +26,8 @@ public class JqhMediaEncodec extends JqhBaseMediaEncoder {
             this.jqhEncodecRender.addTexture(baseTexture);
         }
     }
+
+    public void removeTexture(String key) {
+        jqhEncodecRender.removeTexture(key);
+    }
 }

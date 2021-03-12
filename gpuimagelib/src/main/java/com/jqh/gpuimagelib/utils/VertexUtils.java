@@ -27,4 +27,14 @@ public class VertexUtils {
         };
         return vertex;
     }
+
+    public static float[] getInitData1(){
+        float[] vertex = {
+                0f, 0f,
+                -0f, 0f,
+                0f, -0f,
+                -0f, -0f,
+        };
+        return vertex;
+    }
 }

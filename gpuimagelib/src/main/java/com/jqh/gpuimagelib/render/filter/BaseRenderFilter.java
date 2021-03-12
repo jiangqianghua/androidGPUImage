@@ -2,6 +2,7 @@ package com.jqh.gpuimagelib.render.filter;
 
 import android.content.Context;
 import android.opengl.GLES20;
+import android.text.TextUtils;
 
 import com.jqh.gpuimagelib.R;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
@@ -10,6 +11,7 @@ import com.jqh.gpuimagelib.utils.VertexUtils;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BaseRenderFilter {
 
@@ -40,6 +42,13 @@ public class BaseRenderFilter {
             0f, 0f,
             1f, 0f
     };
+
+//    private float[] fragmentData = {
+//            0f, 0f,
+//            1f, 0f,
+//            0f, 1f,
+//            1f, 1f
+//    };
 
     private FloatBuffer vertexBuffer ;
     private FloatBuffer fragmentBuffer;
@@ -81,7 +90,7 @@ public class BaseRenderFilter {
         String key = BASE_KEY;
         float[] vertex = VertexUtils.getInitData();
         VertexDataBean vertexDataBean = new VertexDataBean(key, vertex);
-        vertextDataList = new ArrayList<>();
+        vertextDataList = new CopyOnWriteArrayList<>();
         vertextDataList.add(vertexDataBean);
         vertexData = VertexUtils.converToVextureData(vertextDataList);
         vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
@@ -116,6 +125,16 @@ public class BaseRenderFilter {
         vertexData = VertexUtils.converToVextureData(vertextDataList);
         vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
         inited = false;
+    }
+
+    public void removeVertextData(String key) {
+        inited = false;
+        for (VertexDataBean vertexDataBean : vertextDataList) {
+            if (TextUtils.equals(vertexDataBean.getKey(), key)){
+                vertextDataList.remove(vertexDataBean);
+                return;
+            }
+        }
     }
 
 }
