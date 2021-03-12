@@ -15,7 +15,7 @@ public class BaseTexture {
 
     private Context context;
 
-    private float[] vertexData = VertexUtils.getInitData1();
+    private float[] vertexData = VertexUtils.getInitData();
 
 
     public BaseTexture(Context context, String id, Bitmap bitmap) {

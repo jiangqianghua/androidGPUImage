@@ -3,6 +3,7 @@ package com.jqh.gpuimagelib.render.filter;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.jqh.gpuimagelib.R;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
@@ -119,12 +120,13 @@ public class BaseRenderFilter {
         return ShaderUtils.getRawResource(context, R.raw.fragment_shader);
     }
 
-    public void addVertexData(String key, float[] vertexData) {
-        VertexDataBean vertexDataBean = new VertexDataBean(key, vertexData);
+    public void addVertexData(String key, float[] _vertexData) {
+        VertexDataBean vertexDataBean = new VertexDataBean(key, _vertexData);
         vertextDataList.add(vertexDataBean);
         vertexData = VertexUtils.converToVextureData(vertextDataList);
         vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
         inited = false;
+        Log.d("ondraw--", "add ++vertexData size" + getVertexData().length);
     }
 
     public void removeVertextData(String key) {
@@ -135,6 +137,9 @@ public class BaseRenderFilter {
                 return;
             }
         }
+        vertexData = VertexUtils.converToVextureData(vertextDataList);
+        vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
+        Log.d("ondraw--", "add --vertexData size" + getVertexData().length);
     }
 
 }

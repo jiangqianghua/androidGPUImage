@@ -3,6 +3,7 @@ package com.jqh.gpuimagelib.render;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
 import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
@@ -50,20 +51,20 @@ public class CommonFboRender {
         baseRenderFilter.update();
 
         // 12 使得顶点属性数组有效
-        GLES20.glEnableVertexAttribArray(baseRenderFilter.getvPosition());
-        // 13 为顶点属性赋值
-        GLES20.glVertexAttribPointer(baseRenderFilter.getvPosition(), 2, GLES20.GL_FLOAT, false, 8 , 0);
-
-
-        // 14 使得纹理属性数组有效
-        GLES20.glEnableVertexAttribArray(baseRenderFilter.getfPosition());
-        // 15  为纹理属性赋值
-        GLES20.glVertexAttribPointer(baseRenderFilter.getfPosition(), 2, GLES20.GL_FLOAT, false, 8 , baseRenderFilter.getVertexData().length * 4);
+//        GLES20.glEnableVertexAttribArray(baseRenderFilter.getvPosition());
+//        // 13 为顶点属性赋值
+//        GLES20.glVertexAttribPointer(baseRenderFilter.getvPosition(), 2, GLES20.GL_FLOAT, false, 8 , 0);
+//
+//
+//        // 14 使得纹理属性数组有效
+//        GLES20.glEnableVertexAttribArray(baseRenderFilter.getfPosition());
+//        // 15  为纹理属性赋值
+//        GLES20.glVertexAttribPointer(baseRenderFilter.getfPosition(), 2, GLES20.GL_FLOAT, false, 8 , baseRenderFilter.getVertexData().length * 4);
 
         // 16 绘制图形
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4); // 最后一个参数设置绘制几个点
-
-
+//        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4); // 最后一个参数设置绘制几个点
+        ShaderUtils.renderTexture(baseRenderFilter.getvPosition(), baseRenderFilter.getfPosition(), baseRenderFilter.getVertexData(), 0);
+        Log.d("ondraw--", "vertexData size" + baseRenderFilter.getVertexData().length);
         for (int i = 0 ; i < baseTextureList.size(); i++) {
             BaseTexture baseTexture = baseTextureList.get(i);
             baseTexture.init();
