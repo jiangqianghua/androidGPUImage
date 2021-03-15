@@ -37,6 +37,7 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
     @Override
     public void onSurfaceChanged(int width, int height) {
         GLES20.glViewport(0,0, width, height);
+        commonFboRender.setWH(width, height);
     }
 
     @Override
@@ -56,6 +57,10 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
 
     public void removeTexture(String key) {
         commonFboRender.removeTexture(key);
+    }
+
+    public void updateTexture(String id, float left, float top, float scale) {
+        commonFboRender.updateTexture(id, left, top, scale);
     }
 
 }

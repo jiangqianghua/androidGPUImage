@@ -53,4 +53,8 @@ public class GPUCameraFboRender {
     public void removeTexture(String key) {
         commonFboRender.removeTexture(key);
     }
+
+    public void updateTexture(String id, float left, float top, float scale) {
+        commonFboRender.updateTexture(id, left, top, scale);
+    }
 }

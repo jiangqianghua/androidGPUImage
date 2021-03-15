@@ -120,4 +120,8 @@ public class GPUCameraView extends GLSurfaceView {
         jqhCameraRender.removeTexture(key);
     }
 
+    public void updateTexture(String id, float left, float top, float scale) {
+        jqhCameraRender.updateTexture(id, left, top, scale);
+    }
+
 }

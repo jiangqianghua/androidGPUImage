@@ -79,7 +79,7 @@ public class CommonFboRender {
 
     public void addTexture(BaseTexture baseTexture) {
         baseTextureList.add(baseTexture);
-        baseTexture.updateSize(width, height);
+        baseTexture.updateScreenWH(width, height);
         baseRenderFilter.addVertexData(baseTexture.getId(), baseTexture.getVertexData());
     }
 
@@ -96,5 +96,22 @@ public class CommonFboRender {
     public void setWH(int w , int h) {
         width = w;
         height = h;
+    }
+
+    public void updateTexture(String id, float left, float top, float scale) {
+        BaseTexture texture = getTexture(id);
+        if (texture == null) return;
+        texture.updateTexture(left, top, scale);
+        texture.updateSize();
+        baseRenderFilter.updateVertexData(id, texture.getVertexData());
+    }
+
+    public BaseTexture getTexture(String id) {
+        for (BaseTexture baseTexture : baseTextureList) {
+            if (TextUtils.equals(id, baseTexture.getId())) {
+                return baseTexture;
+            }
+        }
+        return null;
     }
 }

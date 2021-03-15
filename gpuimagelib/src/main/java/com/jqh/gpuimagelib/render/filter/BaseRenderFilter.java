@@ -123,23 +123,42 @@ public class BaseRenderFilter {
     public void addVertexData(String key, float[] _vertexData) {
         VertexDataBean vertexDataBean = new VertexDataBean(key, _vertexData);
         vertextDataList.add(vertexDataBean);
-        vertexData = VertexUtils.converToVextureData(vertextDataList);
-        vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
-        inited = false;
+        updateData();
         Log.d("ondraw--", "add ++vertexData size" + getVertexData().length);
     }
 
+    public void updateVertexData(String key, float[] _vertexData) {
+        VertexDataBean vertexDataBean = getVertexBean(key);
+        if (vertexDataBean == null) return;
+        vertexDataBean.setVertex(_vertexData);
+        updateData();
+    }
+
     public void removeVertextData(String key) {
-        inited = false;
+
         for (VertexDataBean vertexDataBean : vertextDataList) {
             if (TextUtils.equals(vertexDataBean.getKey(), key)){
                 vertextDataList.remove(vertexDataBean);
                 return;
             }
         }
+        updateData();
+        Log.d("ondraw--", "add --vertexData size" + getVertexData().length);
+    }
+
+    private void updateData(){
         vertexData = VertexUtils.converToVextureData(vertextDataList);
         vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
-        Log.d("ondraw--", "add --vertexData size" + getVertexData().length);
+        inited = false;
+    }
+
+    public VertexDataBean getVertexBean(String id) {
+        for (VertexDataBean vertexDataBean : vertextDataList) {
+            if (TextUtils.equals(vertexDataBean.getKey(), id)){
+                return vertexDataBean;
+            }
+        }
+        return null;
     }
 
 }

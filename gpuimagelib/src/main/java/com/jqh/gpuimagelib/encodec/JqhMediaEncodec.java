@@ -30,4 +30,8 @@ public class JqhMediaEncodec extends JqhBaseMediaEncoder {
     public void removeTexture(String key) {
         jqhEncodecRender.removeTexture(key);
     }
+
+    public void updateTexture(String id, float left, float top, float scale) {
+        jqhEncodecRender.updateTexture(id, left, top, scale);
+    }
 }

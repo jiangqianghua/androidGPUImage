@@ -35,30 +35,25 @@ public class BaseTexture {
         this.top = top;
         this.showScale = showScale;
 
-//        int width = bitmap.getWidth();
-//        int height = bitmap.getHeight();
-//        // 计算图片宽高比例
-//        float scale = 1.0f * width / height;
-//
-//        if (w / h > scale) {
-//            w = h * scale;
-//        } else {
-//            h = w / scale;
-//        }
     }
-
-    public void updateSize(int width, int height) {
+    // 显示界面宽高改变
+    public void updateScreenWH(int width, int height) {
         if (width == 0 || height == 0) return ;
         if (screenHeight == height && screenWidth == width) return ;
 
         screenWidth = width;
         screenHeight = height;
 
-        float showLeft = width * left;
-        float showTop = height * top;
+        updateSize();
+    }
+    // 更新纹理大小
+    public void updateSize() {
 
-        showWidth = showScale * width;
-        showHeight = showScale * height;
+        float showLeft = screenWidth * left;
+        float showTop = screenHeight * top;
+
+        showWidth = showScale * screenWidth;
+        showHeight = showScale * screenHeight;
 
         float scale = 1.0f * bitmap.getWidth() / bitmap.getHeight();
 
@@ -72,6 +67,12 @@ public class BaseTexture {
         vertexData = VertexUtils.createData(showLeft, showTop, showWidth, showHeight, screenWidth, screenHeight);
 
 
+    }
+    // 更新纹理
+    public void updateTexture(float left, float top, float scale) {
+        this.left = left;
+        this.top = top;
+        this.showScale = scale;
     }
 
     public void init(){

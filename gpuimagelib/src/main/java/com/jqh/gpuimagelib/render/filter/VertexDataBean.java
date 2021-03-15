@@ -21,4 +21,8 @@ public class VertexDataBean {
     public float[] getVertex() {
         return vertex;
     }
+
+    public void setVertex(float[] vertex) {
+        this.vertex = vertex;
+    }
 }

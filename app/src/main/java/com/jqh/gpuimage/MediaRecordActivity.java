@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,10 +34,15 @@ public class MediaRecordActivity extends AppCompatActivity {
     private Button recordBtn;
     private GPUCameraView cameraView;
 
+    private Handler handler = new Handler(Looper.getMainLooper());
+
     private String textureKey = "123";
 
     private boolean isAddTexture = false;
 
+    private float left = 0.0f, top = 0.0f, scale = 0.2f;
+
+    private UpdateRunable updateRunable = new UpdateRunable();
 
     private Context getContext(){
         return this;
@@ -139,7 +146,29 @@ public class MediaRecordActivity extends AppCompatActivity {
     }
 
     public void textTextureClick(View view) {
-        cameraView.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff", 0.6f, 0.1f, 0.1f));
-        jqhMediaEncodec.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff", 0.6f, 0.1f, 0.1f));
+        cameraView.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff", left, top, scale));
+        jqhMediaEncodec.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff", left, top, scale));
+        handler.postDelayed(updateRunable, 1000);
     }
+
+    public void updateTexture(){
+        cameraView.updateTexture("999", left, top, scale);
+        if (jqhMediaEncodec == null) return ;
+        jqhMediaEncodec.updateTexture("999", left, top, scale);
+    }
+
+    class UpdateRunable implements Runnable {
+        @Override
+        public void run() {
+            left += 0.01f;
+            top += 0.01f;
+            scale += 0.01f;
+            if (left > 1f) return ;
+            updateTexture();
+            handler.postDelayed(updateRunable, 100);
+        }
+    }
+
+
+
 }
