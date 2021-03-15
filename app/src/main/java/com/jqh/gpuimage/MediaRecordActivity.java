@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import com.jqh.gpuimagelib.encodec.JqhMediaEncodec;
 import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
 import com.jqh.gpuimagelib.render.filter.GreyRenderFilter;
 import com.jqh.gpuimagelib.render.filter.OpacityRenderFilter;
+import com.jqh.gpuimagelib.render.filter.ZoomBlurFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.render.textrue.TextTexture;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
@@ -155,6 +157,11 @@ public class MediaRecordActivity extends AppCompatActivity {
         cameraView.updateTexture("999", left, top, scale);
         if (jqhMediaEncodec == null) return ;
         jqhMediaEncodec.updateTexture("999", left, top, scale);
+    }
+
+    public void zoomblurFilterClick(View view) {
+        cameraView.addFilter(new ZoomBlurFilter(this, new PointF(0.5f, 0.5f), 1.0f));
+        jqhMediaEncodec.addFilter(new ZoomBlurFilter(this, new PointF(0.5f, 0.5f), 1.0f));
     }
 
     class UpdateRunable implements Runnable {

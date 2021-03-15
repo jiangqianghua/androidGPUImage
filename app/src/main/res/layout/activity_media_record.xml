@@ -16,7 +16,7 @@
         android:id="@+id/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_above="@id/tools1">
         <LinearLayout
 
             android:layout_width="wrap_content"
@@ -39,6 +39,26 @@
                 android:layout_height="wrap_content"
                 android:text="黑白"
                 android:onClick="greyFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="缩放"
+                android:onClick="zoomblurFilterClick"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <HorizontalScrollView
+        android:id="@+id/tools1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
