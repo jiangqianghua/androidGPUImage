@@ -11,5 +11,7 @@ public class TextTexture extends BaseTexture {
         super(context, id, null);
 
         bitmap = ShaderUtils.createTextImage(text, fontSize, color, "#00000000", 0);
+
+
     }
 }

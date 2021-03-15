@@ -15,6 +15,12 @@ public class BaseTexture {
 
     private Context context;
 
+    protected float width = 0f, height = 0f;
+
+    protected float left = 0.1f, top = 1.0f;
+
+    private float scale = 0f;
+
     private float[] vertexData = VertexUtils.getInitData();
 
 
@@ -22,6 +28,11 @@ public class BaseTexture {
         this.context = context;
         this.bitmap = bitmap;
         this.id = id;
+
+        width = bitmap.getWidth();
+        height = bitmap.getHeight();
+        // 计算图片宽高比例
+        scale = 1.0f * width / height;
     }
 
     public void init(){
