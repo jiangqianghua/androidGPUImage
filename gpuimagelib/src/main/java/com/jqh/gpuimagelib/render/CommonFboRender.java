@@ -70,6 +70,9 @@ public class CommonFboRender {
 
     public void setFilter(BaseRenderFilter baseRenderFilter) {
         this.baseRenderFilter = baseRenderFilter;
+        for (BaseTexture baseTexture : baseTextureList) {
+            this.baseRenderFilter.addVertexData(baseTexture.getId(), baseTexture.getVertexData());
+        }
     }
 
     public void addTexture(BaseTexture baseTexture) {

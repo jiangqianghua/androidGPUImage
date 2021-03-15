@@ -111,17 +111,17 @@ public class MediaRecordActivity extends AppCompatActivity {
 
     public void defaultFilterClick(View view) {
         cameraView.addFilter(new BaseRenderFilter(this));
-//        jqhMediaEncodec.addFilter(new BaseRenderFilter(this));
+        jqhMediaEncodec.addFilter(new BaseRenderFilter(this));
     }
 
     public void opacityFilterClick(View view) {
         cameraView.addFilter(new OpacityRenderFilter(this, 0.5f));
-//        jqhMediaEncodec.addFilter(new OpacityRenderFilter(this, 0.5f));
+        jqhMediaEncodec.addFilter(new OpacityRenderFilter(this, 0.5f));
     }
 
     public void greyFilterClick(View view) {
         cameraView.addFilter(new GreyRenderFilter(this));
-//        jqhMediaEncodec.addFilter(new GreyRenderFilter(this));
+        jqhMediaEncodec.addFilter(new GreyRenderFilter(this));
     }
 
     public void imgTextureClick(View view) {
@@ -129,10 +129,10 @@ public class MediaRecordActivity extends AppCompatActivity {
             isAddTexture = true;
             Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a);
             cameraView.addTexture(new BaseTexture(this, textureKey, bitmap));
-//            jqhMediaEncodec.addTexture(new BaseTexture(this, textureKey, bitmap));
+            jqhMediaEncodec.addTexture(new BaseTexture(this, textureKey, bitmap));
         } else {
             cameraView.removeTexture(textureKey);
-//            jqhMediaEncodec.removeTexture(textureKey);
+            jqhMediaEncodec.removeTexture(textureKey);
             isAddTexture = false;
         }
 
@@ -140,6 +140,6 @@ public class MediaRecordActivity extends AppCompatActivity {
 
     public void textTextureClick(View view) {
         cameraView.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff"));
-//        jqhMediaEncodec.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff"));
+        jqhMediaEncodec.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff"));
     }
 }

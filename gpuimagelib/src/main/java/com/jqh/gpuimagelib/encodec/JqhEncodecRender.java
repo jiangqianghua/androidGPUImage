@@ -42,7 +42,7 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
     @Override
     public void onDrawFrame() {
         // 用颜色刷新
-//        commonFboRender.onDraw(textureId);
+        commonFboRender.onDraw(textureId);
     }
     public void addFilter(BaseRenderFilter filter) {
         this.commonFboRender.setFilter(filter);
