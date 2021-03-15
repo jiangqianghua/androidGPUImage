@@ -24,6 +24,8 @@ public class CommonFboRender {
 
     private List<BaseTexture> baseTextureList = new CopyOnWriteArrayList<>();
 
+    private int width = 0, height = 0;
+
     public void init(Context context){
         this.context = context;
         baseRenderFilter = new BaseRenderFilter(context);
@@ -77,6 +79,7 @@ public class CommonFboRender {
 
     public void addTexture(BaseTexture baseTexture) {
         baseTextureList.add(baseTexture);
+        baseTexture.updateSize(width, height);
         baseRenderFilter.addVertexData(baseTexture.getId(), baseTexture.getVertexData());
     }
 
@@ -88,5 +91,10 @@ public class CommonFboRender {
                 return;
             }
         }
+    }
+
+    public void setWH(int w , int h) {
+        width = w;
+        height = h;
     }
 }

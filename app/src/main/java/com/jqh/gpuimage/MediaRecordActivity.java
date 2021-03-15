@@ -128,8 +128,8 @@ public class MediaRecordActivity extends AppCompatActivity {
         if (!isAddTexture) {
             isAddTexture = true;
             Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a);
-            cameraView.addTexture(new BaseTexture(this, textureKey, bitmap));
-            jqhMediaEncodec.addTexture(new BaseTexture(this, textureKey, bitmap));
+            cameraView.addTexture(new BaseTexture(this, textureKey, bitmap, 0.1f, 0.1f, 0.1f));
+            jqhMediaEncodec.addTexture(new BaseTexture(this, textureKey, bitmap,0.1f, 0.1f, 0.1f));
         } else {
             cameraView.removeTexture(textureKey);
             jqhMediaEncodec.removeTexture(textureKey);
@@ -139,7 +139,7 @@ public class MediaRecordActivity extends AppCompatActivity {
     }
 
     public void textTextureClick(View view) {
-        cameraView.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff"));
-        jqhMediaEncodec.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff"));
+        cameraView.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff", 0.6f, 0.1f, 0.1f));
+        jqhMediaEncodec.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff", 0.6f, 0.1f, 0.1f));
     }
 }

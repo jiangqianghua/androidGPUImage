@@ -30,6 +30,7 @@ public class GPUCameraFboRender {
 
     public void onChange(int width, int height) {
         GLES20.glViewport(0,0, width, height);
+        commonFboRender.setWH(width, height);
     }
 
     public void onDraw(int textureId){
