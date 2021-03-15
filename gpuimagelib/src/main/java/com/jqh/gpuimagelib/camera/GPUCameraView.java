@@ -9,7 +9,7 @@ import android.view.Surface;
 import android.view.WindowManager;
 
 import com.jqh.gpuimagelib.opengl.GLSurfaceView;
-import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
+import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 
 public class GPUCameraView extends GLSurfaceView {
@@ -103,7 +103,7 @@ public class GPUCameraView extends GLSurfaceView {
         return textureId;
     }
 
-    public GPUCameraView addFilter(BaseRenderFilter filter) {
+    public GPUCameraView addFilter(BaseGPUImageFilter filter) {
         if (filter != null && jqhCameraRender != null) {
             jqhCameraRender.addFilter(filter);
         }

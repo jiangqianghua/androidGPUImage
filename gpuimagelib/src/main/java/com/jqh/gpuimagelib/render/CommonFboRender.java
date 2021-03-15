@@ -6,11 +6,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
-import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
+import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.utils.RenderUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -20,7 +19,7 @@ public class CommonFboRender {
 
     private int vboId = 0;
 
-    private BaseRenderFilter baseRenderFilter;
+    private BaseGPUImageFilter baseRenderFilter;
 
     private List<BaseTexture> baseTextureList = new CopyOnWriteArrayList<>();
 
@@ -28,7 +27,7 @@ public class CommonFboRender {
 
     public void init(Context context){
         this.context = context;
-        baseRenderFilter = new BaseRenderFilter(context);
+        baseRenderFilter = new BaseGPUImageFilter(context);
     }
 
     public void onCreate(){
@@ -70,7 +69,7 @@ public class CommonFboRender {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
 
-    public void setFilter(BaseRenderFilter baseRenderFilter) {
+    public void setFilter(BaseGPUImageFilter baseRenderFilter) {
         this.baseRenderFilter = baseRenderFilter;
         for (BaseTexture baseTexture : baseTextureList) {
             this.baseRenderFilter.addVertexData(baseTexture.getId(), baseTexture.getVertexData());

@@ -6,10 +6,10 @@ import android.opengl.GLES20;
 import com.jqh.gpuimagelib.R;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
 
-public class OpacityRenderFilter extends BaseRenderFilter {
+public class GPUImageOpacityFilter extends BaseGPUImageFilter {
     private int opacityLocation;
     private float opacity;
-    public OpacityRenderFilter(Context context, float opacity) {
+    public GPUImageOpacityFilter(Context context, float opacity) {
         super(context);
         this.opacity = opacity;
     }
@@ -29,5 +29,9 @@ public class OpacityRenderFilter extends BaseRenderFilter {
     public void update() {
         super.update();
         GLES20.glUniform1f(opacityLocation, opacity);
+    }
+
+    public void setOpacity(float opacity) {
+        this.opacity = opacity;
     }
 }

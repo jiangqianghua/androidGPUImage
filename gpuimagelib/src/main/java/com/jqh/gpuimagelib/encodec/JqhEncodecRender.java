@@ -1,14 +1,13 @@
 package com.jqh.gpuimagelib.encodec;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.opengl.GLES20;
 
 
 import com.jqh.gpuimagelib.opengl.GLSurfaceView;
 
 import com.jqh.gpuimagelib.render.CommonFboRender;
-import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
+import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 
 public class JqhEncodecRender implements GLSurfaceView.GLRender {
@@ -45,7 +44,7 @@ public class JqhEncodecRender implements GLSurfaceView.GLRender {
         // 用颜色刷新
         commonFboRender.onDraw(textureId);
     }
-    public void addFilter(BaseRenderFilter filter) {
+    public void addFilter(BaseGPUImageFilter filter) {
         this.commonFboRender.setFilter(filter);
     }
 

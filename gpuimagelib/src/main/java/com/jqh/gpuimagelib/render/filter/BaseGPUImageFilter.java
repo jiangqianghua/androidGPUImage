@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class BaseRenderFilter {
+public class BaseGPUImageFilter {
 
     private boolean inited = false;
 
@@ -86,7 +86,7 @@ public class BaseRenderFilter {
         return fPosition;
     }
 
-    public BaseRenderFilter(Context context) {
+    public BaseGPUImageFilter(Context context) {
         this.context = context;
         String key = BASE_KEY;
         float[] vertex = VertexUtils.getInitData();

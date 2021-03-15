@@ -5,7 +5,7 @@ import android.opengl.GLES20;
 
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
 import com.jqh.gpuimagelib.render.CommonFboRender;
-import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
+import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 
 
@@ -40,7 +40,7 @@ public class GPUCameraFboRender {
 
     }
 
-    public void addFilter(BaseRenderFilter filter) {
+    public void addFilter(BaseGPUImageFilter filter) {
         this.commonFboRender.setFilter(filter);
     }
 

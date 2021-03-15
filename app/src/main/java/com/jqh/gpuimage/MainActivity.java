@@ -9,12 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.jqh.gpuimagelib.filter.GPUImageGreyFilter;
-import com.jqh.gpuimagelib.filter.GPUImageHueBlendFilter;
-import com.jqh.gpuimagelib.filter.GPUImageLightFilter;
-import com.jqh.gpuimagelib.filter.GPUImageOpacityFilter;
-import com.jqh.gpuimagelib.filter.GPUImageZoomBlurFilter;
 import com.jqh.gpuimagelib.image.GPUImageView;
+import com.jqh.gpuimagelib.render.filter.GPUImageOpacityFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageZoomBlurFilter;
 
 public class MainActivity extends AppCompatActivity {
 

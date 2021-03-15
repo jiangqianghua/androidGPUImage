@@ -5,7 +5,7 @@ import android.graphics.PointF;
 import android.opengl.GLES20;
 
 
-public class ZoomBlurFilter extends BaseRenderFilter {
+public class GPUImageZoomBlurFilter extends BaseGPUImageFilter {
 
     public static final String ZOOM_BLUR_FRAGMENT_SHADER = "" +
             "varying highp vec2 ft_Position;\n" +
@@ -38,7 +38,7 @@ public class ZoomBlurFilter extends BaseRenderFilter {
     private float blurSize;
     private int blurSizeLocation;
 
-    public ZoomBlurFilter(Context context, PointF blurCenter, float blurSize) {
+    public GPUImageZoomBlurFilter(Context context, PointF blurCenter, float blurSize) {
         super(context);
         this.blurCenter = blurCenter;
         this.blurSize = blurSize;

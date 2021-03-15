@@ -5,8 +5,8 @@ import android.content.Context;
 import com.jqh.gpuimagelib.R;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
 
-public class GreyRenderFilter extends BaseRenderFilter {
-    public GreyRenderFilter(Context context) {
+public class GPUImageGreyFilter extends BaseGPUImageFilter {
+    public GPUImageGreyFilter(Context context) {
         super(context);
     }
 

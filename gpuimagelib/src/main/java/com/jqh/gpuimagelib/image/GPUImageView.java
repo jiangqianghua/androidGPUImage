@@ -4,8 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 
-import com.jqh.gpuimagelib.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.opengl.GLSurfaceView;
+import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
 
 public class GPUImageView extends GLSurfaceView {
 

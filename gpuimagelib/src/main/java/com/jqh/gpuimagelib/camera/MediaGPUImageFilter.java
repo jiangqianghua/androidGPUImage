@@ -1,4 +1,4 @@
-package com.jqh.gpuimagelib.filter;
+package com.jqh.gpuimagelib.camera;
 
 import android.content.Context;
 import android.opengl.GLES20;
@@ -8,7 +8,7 @@ import com.jqh.gpuimagelib.opengl.ShaderUtils;
 
 import java.nio.FloatBuffer;
 
-public class BaseGPUImageFilter {
+public class MediaGPUImageFilter {
     protected Context context;
 
     private boolean filterChange = true;
@@ -99,7 +99,7 @@ public class BaseGPUImageFilter {
         return program;
     }
 
-    public BaseGPUImageFilter(Context context) {
+    public MediaGPUImageFilter(Context context) {
         this.context = context;
         // 获取顶点和纹理buffer
         vertexBuffer = ShaderUtils.allocateBuffer(vertexData);

@@ -19,10 +19,10 @@ import com.jqh.gpuimagelib.audio.AudioRecordUtil;
 import com.jqh.gpuimagelib.camera.GPUCameraView;
 import com.jqh.gpuimagelib.encodec.JqhBaseMediaEncoder;
 import com.jqh.gpuimagelib.encodec.JqhMediaEncodec;
-import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
-import com.jqh.gpuimagelib.render.filter.GreyRenderFilter;
-import com.jqh.gpuimagelib.render.filter.OpacityRenderFilter;
-import com.jqh.gpuimagelib.render.filter.ZoomBlurFilter;
+import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageGreyFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageOpacityFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageZoomBlurFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.render.textrue.TextTexture;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
@@ -59,9 +59,9 @@ public class MediaRecordActivity extends AppCompatActivity {
         recordBtn = findViewById(R.id.record_btn);
         String cachePath = getDiskCachePath(getApplicationContext());
         path = cachePath + File.separator + "record.mp4" ;
-//        cameraView.addFilter(new OpacityRenderFilter(this, 0.5f));
+//        cameraView.addFilter(new GPUImageOpacityFilter(this, 0.5f));
 
-        cameraView.addFilter(new BaseRenderFilter(this));
+        cameraView.addFilter(new BaseGPUImageFilter(this));
 
     }
 
@@ -119,18 +119,18 @@ public class MediaRecordActivity extends AppCompatActivity {
     }
 
     public void defaultFilterClick(View view) {
-        cameraView.addFilter(new BaseRenderFilter(this));
-        jqhMediaEncodec.addFilter(new BaseRenderFilter(this));
+        cameraView.addFilter(new BaseGPUImageFilter(this));
+        jqhMediaEncodec.addFilter(new BaseGPUImageFilter(this));
     }
 
     public void opacityFilterClick(View view) {
-        cameraView.addFilter(new OpacityRenderFilter(this, 0.5f));
-        jqhMediaEncodec.addFilter(new OpacityRenderFilter(this, 0.5f));
+        cameraView.addFilter(new GPUImageOpacityFilter(this, 0.5f));
+        jqhMediaEncodec.addFilter(new GPUImageOpacityFilter(this, 0.5f));
     }
 
     public void greyFilterClick(View view) {
-        cameraView.addFilter(new GreyRenderFilter(this));
-        jqhMediaEncodec.addFilter(new GreyRenderFilter(this));
+        cameraView.addFilter(new GPUImageGreyFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageGreyFilter(this));
     }
 
     public void imgTextureClick(View view) {
@@ -160,8 +160,8 @@ public class MediaRecordActivity extends AppCompatActivity {
     }
 
     public void zoomblurFilterClick(View view) {
-        cameraView.addFilter(new ZoomBlurFilter(this, new PointF(0.5f, 0.5f), 1.0f));
-        jqhMediaEncodec.addFilter(new ZoomBlurFilter(this, new PointF(0.5f, 0.5f), 1.0f));
+        cameraView.addFilter(new GPUImageZoomBlurFilter(this, new PointF(0.5f, 0.5f), 1.0f));
+        jqhMediaEncodec.addFilter(new GPUImageZoomBlurFilter(this, new PointF(0.5f, 0.5f), 1.0f));
     }
 
     class UpdateRunable implements Runnable {

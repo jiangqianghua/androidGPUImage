@@ -6,10 +6,9 @@ import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import com.jqh.gpuimagelib.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.opengl.GLSurfaceView;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
-import com.jqh.gpuimagelib.render.filter.BaseRenderFilter;
+import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
 import com.jqh.gpuimagelib.utils.RenderUtils;
@@ -34,12 +33,12 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
     private int fboTextureId; //离屏渲染纹理
     private GPUCameraFboRender cameraFboRender;
 
-    private BaseGPUImageFilter baseGPUImageFilter;
+    private MediaGPUImageFilter baseGPUImageFilter;
 
     public GPUCameraRender(Context context) {
         this.context = context;
         cameraFboRender = new GPUCameraFboRender(context);
-        baseGPUImageFilter = new BaseGPUImageFilter(context);
+        baseGPUImageFilter = new MediaGPUImageFilter(context);
         baseGPUImageFilter.setIsMedia(true);
         screenHeight = DisplayUtil.getScreenHeight(context);
         screenWidth = DisplayUtil.getScreenWidth(context);
@@ -158,7 +157,7 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
         void onSurfaceCreate(SurfaceTexture surfaceTexture, int textureId);
     }
 
-    public void addFilter(BaseRenderFilter filter) {
+    public void addFilter(BaseGPUImageFilter filter) {
 //        filterList.add(filter);
 //        filter.setIsMedia(true);
 
