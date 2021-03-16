@@ -44,6 +44,49 @@
                 android:layout_height="wrap_content"
                 android:text="缩放"
                 android:onClick="zoomblurFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WhiteBlance"
+                android:onClick="WhiteBlanceFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vignette"
+                android:onClick="VignetteFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vibrance"
+                android:onClick="VibranceFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Swirl"
+                android:onClick="SwirlFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SphereRefraction"
+                android:onClick="SphereRefractionFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Brightness"
+                android:onClick="BrightnessFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BulgeDistortion"
+                android:onClick="BulgeDistortionFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ColorBalance"
+                android:onClick="ColorBalanceFilterClick"/>
+            ColorBalance
         </LinearLayout>
     </HorizontalScrollView>
 

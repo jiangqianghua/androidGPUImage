@@ -20,8 +20,17 @@ import com.jqh.gpuimagelib.camera.GPUCameraView;
 import com.jqh.gpuimagelib.encodec.JqhBaseMediaEncoder;
 import com.jqh.gpuimagelib.encodec.JqhMediaEncodec;
 import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageBrightnessFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageBulgeDistortionFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageCGAColorspaceFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageColorBalanceFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageGreyFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageOpacityFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageSphereRefractionFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageSwirlFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageVibranceFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageVignetteFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageWhiteBalanceFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageZoomBlurFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.render.textrue.TextTexture;
@@ -162,6 +171,51 @@ public class MediaRecordActivity extends AppCompatActivity {
     public void zoomblurFilterClick(View view) {
         cameraView.addFilter(new GPUImageZoomBlurFilter(this, new PointF(0.5f, 0.5f), 1.0f));
         jqhMediaEncodec.addFilter(new GPUImageZoomBlurFilter(this, new PointF(0.5f, 0.5f), 1.0f));
+    }
+
+    public void WhiteBlanceFilterClick(View view) {
+        cameraView.addFilter(new GPUImageWhiteBalanceFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageWhiteBalanceFilter(this));
+    }
+
+    public void VignetteFilterClick(View view) {
+        cameraView.addFilter(new GPUImageVignetteFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageVignetteFilter(this));
+    }
+
+    public void VibranceFilterClick(View view) {
+        cameraView.addFilter(new GPUImageVibranceFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageVibranceFilter(this));
+    }
+
+    public void SwirlFilterClick(View view) {
+        cameraView.addFilter(new GPUImageSwirlFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageSwirlFilter(this));
+    }
+
+    public void SphereRefractionFilterClick(View view) {
+        cameraView.addFilter(new GPUImageSphereRefractionFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageSphereRefractionFilter(this));
+    }
+
+    public void BrightnessFilterClick(View view) {
+        cameraView.addFilter(new GPUImageBrightnessFilter(this, 0.7f));
+        jqhMediaEncodec.addFilter(new GPUImageBrightnessFilter(this));
+    }
+
+    public void BulgeDistortionFilterClick(View view) {
+        cameraView.addFilter(new GPUImageBulgeDistortionFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageBulgeDistortionFilter(this));
+    }
+
+    public void CGAColorspaceFilterClick(View view) {
+        cameraView.addFilter(new GPUImageCGAColorspaceFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageCGAColorspaceFilter(this));
+    }
+
+    public void ColorBalanceFilterClick(View view) {
+        cameraView.addFilter(new GPUImageColorBalanceFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageColorBalanceFilter(this));
     }
 
     class UpdateRunable implements Runnable {

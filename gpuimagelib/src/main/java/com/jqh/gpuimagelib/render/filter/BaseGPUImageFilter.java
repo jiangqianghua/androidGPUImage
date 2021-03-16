@@ -1,12 +1,14 @@
 package com.jqh.gpuimagelib.render.filter;
 
 import android.content.Context;
+import android.graphics.PointF;
 import android.opengl.GLES20;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.jqh.gpuimagelib.R;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
+import com.jqh.gpuimagelib.utils.LogUtils;
 import com.jqh.gpuimagelib.utils.VertexUtils;
 
 import java.nio.FloatBuffer;
@@ -16,7 +18,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BaseGPUImageFilter {
 
-    private boolean inited = false;
+    protected boolean inited = false;
+
+    protected boolean isNeedUpdate = true;
+
+    protected  boolean isNeedChangeWH = true;
 
 
     private static final String BASE_KEY = "basekey";
@@ -30,27 +36,13 @@ public class BaseGPUImageFilter {
     protected Context context;
 
     // 绘制上半部分
-    private float[] vertexData = {
-            -1f, -1f,
-            1f, -1f,
-            -1f, 1f,
-            1f, 1f,
-    };
-
+    private float[] vertexData ;
     private float[] fragmentData = {
             0f, 1f,
             1f, 1f,
             0f, 0f,
             1f, 0f
     };
-
-//    private float[] fragmentData = {
-//            0f, 0f,
-//            1f, 0f,
-//            0f, 1f,
-//            1f, 1f
-//    };
-
     private FloatBuffer vertexBuffer ;
     private FloatBuffer fragmentBuffer;
 
@@ -105,12 +97,12 @@ public class BaseGPUImageFilter {
         vPosition = GLES20.glGetAttribLocation(program, "v_Position");
         fPosition = GLES20.glGetAttribLocation(program, "f_Position");
         inited = true;
+        LogUtils.logd("init base program=" + program + " vp=" + vPosition + " fp=" + fPosition);
     }
 
     public void update(){
-
+        isNeedUpdate = false;
     }
-
 
     protected String getVertexSource(){
         return  ShaderUtils.getRawResource(context,  R.raw.vertex_shader );
@@ -152,6 +144,10 @@ public class BaseGPUImageFilter {
         inited = false;
     }
 
+    public void onOutputSizeChanged(int width, int height) {
+        isNeedChangeWH = false;
+    }
+
     public VertexDataBean getVertexBean(String id) {
         for (VertexDataBean vertexDataBean : vertextDataList) {
             if (TextUtils.equals(vertexDataBean.getKey(), id)){
@@ -160,5 +156,49 @@ public class BaseGPUImageFilter {
         }
         return null;
     }
+
+    public void setNeedUpdate() {
+        isNeedUpdate = true;
+    }
+
+    protected void setInteger(final int location, final int intValue) {
+        GLES20.glUniform1i(location, intValue);
+    }
+
+    protected void setFloat(final int location, final float floatValue) {
+        GLES20.glUniform1f(location, floatValue);
+    }
+
+    protected void setFloatVec2(final int location, final float[] arrayValue) {
+        GLES20.glUniform2fv(location, 1, FloatBuffer.wrap(arrayValue));
+    }
+
+    protected void setFloatVec3(final int location, final float[] arrayValue) {
+        GLES20.glUniform3fv(location, 1, FloatBuffer.wrap(arrayValue));
+    }
+
+    protected void setFloatVec4(final int location, final float[] arrayValue) {
+        GLES20.glUniform4fv(location, 1, FloatBuffer.wrap(arrayValue));
+    }
+
+    protected void setFloatArray(final int location, final float[] arrayValue) {
+        GLES20.glUniform1fv(location, arrayValue.length, FloatBuffer.wrap(arrayValue));
+    }
+
+    protected void setPoint(final int location, final PointF point) {
+        float[] vec2 = new float[2];
+        vec2[0] = point.x;
+        vec2[1] = point.y;
+        GLES20.glUniform2fv(location, 1, vec2, 0);
+    }
+
+    protected void setUniformMatrix3f(final int location, final float[] matrix) {
+        GLES20.glUniformMatrix3fv(location, 1, false, matrix, 0);
+    }
+
+    protected void setUniformMatrix4f(final int location, final float[] matrix) {
+        GLES20.glUniformMatrix4fv(location, 1, false, matrix, 0);
+    }
+
 
 }

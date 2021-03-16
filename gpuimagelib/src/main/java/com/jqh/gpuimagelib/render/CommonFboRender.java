@@ -51,6 +51,8 @@ public class CommonFboRender {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
         baseRenderFilter.update();
 
+        baseRenderFilter.onOutputSizeChanged(width, height);
+
         // 16 绘制图形
 //        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4); // 最后一个参数设置绘制几个点
         ShaderUtils.renderTexture(baseRenderFilter.getvPosition(), baseRenderFilter.getfPosition(), baseRenderFilter.getVertexData(), 0);

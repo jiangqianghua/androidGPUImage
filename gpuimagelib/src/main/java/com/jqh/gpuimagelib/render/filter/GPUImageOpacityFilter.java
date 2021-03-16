@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 
 import com.jqh.gpuimagelib.R;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
+import com.jqh.gpuimagelib.utils.LogUtils;
 
 public class GPUImageOpacityFilter extends BaseGPUImageFilter {
     private int opacityLocation;
@@ -16,8 +17,10 @@ public class GPUImageOpacityFilter extends BaseGPUImageFilter {
 
     @Override
     public void init() {
+        if (inited) return;
         super.init();
         opacityLocation = GLES20.glGetUniformLocation(getProgram(), "opacity");
+        LogUtils.logd("init Opacity opacityLocation = " + opacityLocation);
     }
 
     @Override
@@ -27,11 +30,13 @@ public class GPUImageOpacityFilter extends BaseGPUImageFilter {
 
     @Override
     public void update() {
+        if (!isNeedUpdate) return;
         super.update();
         GLES20.glUniform1f(opacityLocation, opacity);
     }
 
     public void setOpacity(float opacity) {
         this.opacity = opacity;
+        setNeedUpdate();
     }
 }

@@ -46,6 +46,7 @@ public class GPUImageZoomBlurFilter extends BaseGPUImageFilter {
 
     @Override
     public void init() {
+        if (inited) return;
         super.init();
         blurCenterLocation = GLES20.glGetUniformLocation(getProgram(), "blurCenter");
         blurSizeLocation = GLES20.glGetUniformLocation(getProgram(), "blurSize");
@@ -54,12 +55,10 @@ public class GPUImageZoomBlurFilter extends BaseGPUImageFilter {
 
     @Override
     public void update() {
+        if (!isNeedUpdate) return;
         super.update();
-        float[] vec2 = new float[2];
-        vec2[0] = blurCenter.x;
-        vec2[1] = blurCenter.y;
-        GLES20.glUniform2fv(blurCenterLocation, 1, vec2, 0);
-        GLES20.glUniform1f(blurSizeLocation, blurSize);
+        setPoint(blurCenterLocation, blurCenter);
+        setFloat(blurSizeLocation, blurSize);
     }
 
     @Override
