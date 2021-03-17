@@ -20,6 +20,7 @@ import com.jqh.gpuimagelib.camera.GPUCameraView;
 import com.jqh.gpuimagelib.encodec.JqhBaseMediaEncoder;
 import com.jqh.gpuimagelib.encodec.JqhMediaEncodec;
 import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageBeautyFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageBrightnessFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageBulgeDistortionFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageCGAColorspaceFilter;
@@ -216,6 +217,11 @@ public class MediaRecordActivity extends AppCompatActivity {
     public void ColorBalanceFilterClick(View view) {
         cameraView.addFilter(new GPUImageColorBalanceFilter(this));
         jqhMediaEncodec.addFilter(new GPUImageColorBalanceFilter(this));
+    }
+
+    public void beautyFilterClick(View view) {
+        cameraView.addFilter(new GPUImageBeautyFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageBeautyFilter(this));
     }
 
     class UpdateRunable implements Runnable {
