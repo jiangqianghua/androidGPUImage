@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.jqh.gpuimagelib.R;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
+import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.utils.LogUtils;
 import com.jqh.gpuimagelib.utils.VertexUtils;
 
@@ -112,6 +113,15 @@ public class BaseGPUImageFilter {
         return ShaderUtils.getRawResource(context, R.raw.fragment_shader);
     }
 
+    public void addVertextDataList(List<BaseTexture> baseTextureList) {
+        if (baseTextureList == null || baseTextureList.size() == 0) return ;
+        for (BaseTexture baseTexture : baseTextureList) {
+            VertexDataBean vertexDataBean = new VertexDataBean(baseTexture.getId(), baseTexture.getVertexData());
+            vertextDataList.add(vertexDataBean);
+        }
+        updateData();
+    }
+
     public void addVertexData(String key, float[] _vertexData) {
         VertexDataBean vertexDataBean = new VertexDataBean(key, _vertexData);
         vertextDataList.add(vertexDataBean);
@@ -141,7 +151,13 @@ public class BaseGPUImageFilter {
     private void updateData(){
         vertexData = VertexUtils.converToVextureData(vertextDataList);
         vertexBuffer = ShaderUtils.allocateBuffer(vertexData);
+        initData();
+    }
+
+    private void initData(){
         inited = false;
+        isNeedUpdate = true;
+        isNeedChangeWH = true;
     }
 
     public void onOutputSizeChanged(int width, int height) {

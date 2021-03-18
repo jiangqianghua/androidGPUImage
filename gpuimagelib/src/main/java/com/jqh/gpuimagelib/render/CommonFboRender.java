@@ -73,9 +73,7 @@ public class CommonFboRender {
 
     public void setFilter(BaseGPUImageFilter baseRenderFilter) {
         this.baseRenderFilter = baseRenderFilter;
-        for (BaseTexture baseTexture : baseTextureList) {
-            this.baseRenderFilter.addVertexData(baseTexture.getId(), baseTexture.getVertexData());
-        }
+        this.baseRenderFilter.addVertextDataList(baseTextureList);
     }
 
     public void addTexture(BaseTexture baseTexture) {

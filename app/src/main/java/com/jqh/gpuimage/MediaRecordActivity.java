@@ -149,10 +149,12 @@ public class MediaRecordActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a);
             cameraView.addTexture(new BaseTexture(this, textureKey, bitmap, 0.1f, 0.1f, 0.1f));
             jqhMediaEncodec.addTexture(new BaseTexture(this, textureKey, bitmap,0.1f, 0.1f, 0.1f));
+            handler.postDelayed(updateRunable, 1000);
         } else {
             cameraView.removeTexture(textureKey);
             jqhMediaEncodec.removeTexture(textureKey);
             isAddTexture = false;
+            handler.removeCallbacks(updateRunable);
         }
 
     }
@@ -160,13 +162,13 @@ public class MediaRecordActivity extends AppCompatActivity {
     public void textTextureClick(View view) {
         cameraView.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff", left, top, scale));
         jqhMediaEncodec.addTexture(new TextTexture(this, "999", "这是水印", 50, "#ff00ff", left, top, scale));
-        handler.postDelayed(updateRunable, 1000);
+//        handler.postDelayed(updateRunable, 1000);
     }
 
     public void updateTexture(){
-        cameraView.updateTexture("999", left, top, scale);
+        cameraView.updateTexture(textureKey, left, top, scale);
         if (jqhMediaEncodec == null) return ;
-        jqhMediaEncodec.updateTexture("999", left, top, scale);
+        jqhMediaEncodec.updateTexture(textureKey, left, top, scale);
     }
 
     public void zoomblurFilterClick(View view) {
@@ -232,7 +234,7 @@ public class MediaRecordActivity extends AppCompatActivity {
             scale += 0.01f;
             if (left > 1f) return ;
             updateTexture();
-            handler.postDelayed(updateRunable, 100);
+            handler.postDelayed(updateRunable, 2000);
         }
     }
 
