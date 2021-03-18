@@ -239,6 +239,7 @@ public class MediaRecordActivity extends AppCompatActivity {
                     public void run() {
                         ImageView imageView = findViewById(R.id.imageview);
                         imageView.setImageBitmap(bitmap);
+                        imageView.setVisibility(View.VISIBLE);
                     }
                 });
             }

@@ -15,7 +15,8 @@
         android:id="@+id/imageview"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:background="#ffff00"/>
+        android:background="#ffff00"
+        android:visibility="gone"/>
 
 
 
