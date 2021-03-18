@@ -18,7 +18,7 @@ public class GPUCameraView extends GLSurfaceView {
     private GPUCamera jqhCamera ;
     private int textureId = -1;
 
-    private int cameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+    private int cameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
     public GPUCameraView(Context context) {
         this(context, null);
     }
