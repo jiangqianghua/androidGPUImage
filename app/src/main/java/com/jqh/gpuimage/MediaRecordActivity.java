@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,6 +16,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.jqh.gpuimagelib.audio.AudioRecordUtil;
 import com.jqh.gpuimagelib.camera.GPUCameraView;
@@ -225,6 +228,30 @@ public class MediaRecordActivity extends AppCompatActivity {
         cameraView.addFilter(new GPUImageBeautyFilter(this));
         jqhMediaEncodec.addFilter(new GPUImageBeautyFilter(this));
     }
+
+    public void takephotoClick(View view) {
+        // 拍照
+        Bitmap bitmap = loadBitmapFromView(cameraView);
+        ImageView imageView = findViewById(R.id.imageview);
+        imageView.setImageBitmap(bitmap);
+
+    }
+
+    private Bitmap loadBitmapFromView(View v) {
+        int w = v.getWidth();
+        int h = v.getHeight();
+        Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmp);
+
+        c.drawColor(Color.WHITE);
+        /** 如果不设置canvas画布为白色，则生成透明 */
+
+        v.layout(0, 0, w, h);
+        v.draw(c);
+
+        return bmp;
+    }
+
 
     class UpdateRunable implements Runnable {
         @Override
