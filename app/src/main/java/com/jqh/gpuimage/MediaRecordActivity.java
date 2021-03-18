@@ -231,26 +231,24 @@ public class MediaRecordActivity extends AppCompatActivity {
 
     public void takephotoClick(View view) {
         // 拍照
-        Bitmap bitmap = loadBitmapFromView(cameraView);
-        ImageView imageView = findViewById(R.id.imageview);
-        imageView.setImageBitmap(bitmap);
+        cameraView.setOnTakePhoneListener(new GPUCameraView.OnTakePhoneListener() {
+            @Override
+            public void onResult(final Bitmap bitmap) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ImageView imageView = findViewById(R.id.imageview);
+                        imageView.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        });
+
+        cameraView.takePhoto();
 
     }
 
-    private Bitmap loadBitmapFromView(View v) {
-        int w = v.getWidth();
-        int h = v.getHeight();
-        Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(bmp);
 
-        c.drawColor(Color.WHITE);
-        /** 如果不设置canvas画布为白色，则生成透明 */
-
-        v.layout(0, 0, w, h);
-        v.draw(c);
-
-        return bmp;
-    }
 
 
     class UpdateRunable implements Runnable {

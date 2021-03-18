@@ -1,6 +1,7 @@
 package com.jqh.gpuimagelib.camera;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.util.AttributeSet;
@@ -11,6 +12,8 @@ import android.view.WindowManager;
 import com.jqh.gpuimagelib.opengl.GLSurfaceView;
 import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
+
+import javax.microedition.khronos.opengles.GL10;
 
 public class GPUCameraView extends GLSurfaceView {
 
@@ -41,6 +44,15 @@ public class GPUCameraView extends GLSurfaceView {
                 jqhCamera.initCamera(surfaceTexture, cameraId);
                 textureId = _textureId;
 
+                jqhCameraRender.setGl((GL10) getEglContext().getGL());
+
+            }
+
+            @Override
+            public void onCreateBitmap(Bitmap bitmap) {
+                if (onTakePhoneListener != null) {
+                    onTakePhoneListener.onResult(bitmap);
+                }
             }
         });
 
@@ -124,4 +136,17 @@ public class GPUCameraView extends GLSurfaceView {
         jqhCameraRender.updateTexture(id, left, top, scale);
     }
 
+    public void takePhoto(){
+        jqhCameraRender.takePhoto();
+    }
+
+    public interface OnTakePhoneListener{
+        void onResult(Bitmap bitmap);
+    }
+
+    private OnTakePhoneListener onTakePhoneListener;
+
+    public void setOnTakePhoneListener(OnTakePhoneListener onTakePhoneListener) {
+        this.onTakePhoneListener = onTakePhoneListener;
+    }
 }

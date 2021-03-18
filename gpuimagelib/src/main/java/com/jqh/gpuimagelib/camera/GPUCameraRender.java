@@ -1,6 +1,7 @@
 package com.jqh.gpuimagelib.camera;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
@@ -12,6 +13,8 @@ import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
 import com.jqh.gpuimagelib.utils.RenderUtils;
+
+import javax.microedition.khronos.opengles.GL10;
 
 public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.OnFrameAvailableListener {
     private Context context;
@@ -28,12 +31,19 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
     private int width, height; // 实际surface大小
 
 
+    private GL10 gl;
     private int vboId;
     private int fboId;
     private int fboTextureId; //离屏渲染纹理
     private GPUCameraFboRender cameraFboRender;
 
     private MediaGPUImageFilter baseGPUImageFilter;
+
+    private boolean isTakePicture = false;
+
+    public void setGl(GL10 gl) {
+        this.gl = gl;
+    }
 
     public GPUCameraRender(Context context) {
         this.context = context;
@@ -143,6 +153,17 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
 
         //  解除绑定纹理
 //        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+
+        if (isTakePicture) {
+            Bitmap bmp = RenderUtils.createBitmapFromGLSurface(0, 0, width,
+                    height, gl);
+            isTakePicture = false;
+            if (onSurfaceCreateListener != null) onSurfaceCreateListener.onCreateBitmap(bmp);
+        }
+    }
+
+    public void takePhoto(){
+        isTakePicture = true;
     }
 
 
@@ -155,6 +176,7 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
 
     public interface  OnSurfaceCreateListener{
         void onSurfaceCreate(SurfaceTexture surfaceTexture, int textureId);
+        void onCreateBitmap(Bitmap bitmap);
     }
 
     public void addFilter(BaseGPUImageFilter filter) {
