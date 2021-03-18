@@ -20,6 +20,7 @@ public class GPUCameraView extends GLSurfaceView {
     private GPUCameraRender jqhCameraRender;
     private GPUCamera jqhCamera ;
     private int textureId = -1;
+    private Context context;
 
     private int cameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
     public GPUCameraView(Context context) {
@@ -32,7 +33,7 @@ public class GPUCameraView extends GLSurfaceView {
 
     public GPUCameraView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
+        this.context = context;
         jqhCameraRender = new GPUCameraRender(context);
         jqhCamera = new GPUCamera(context);
 
@@ -148,5 +149,15 @@ public class GPUCameraView extends GLSurfaceView {
 
     public void setOnTakePhoneListener(OnTakePhoneListener onTakePhoneListener) {
         this.onTakePhoneListener = onTakePhoneListener;
+    }
+
+    public void switchCamera(){
+        if (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
+            cameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+        } else {
+            cameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
+        }
+        jqhCamera.changeCamera(cameraId);
+        previewAngle(context);
     }
 }

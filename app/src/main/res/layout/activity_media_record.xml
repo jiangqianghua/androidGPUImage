@@ -8,13 +8,14 @@
     tools:context=".MediaRecordActivity">
     <com.jqh.gpuimagelib.camera.GPUCameraView
         android:id="@+id/camera_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="300dp"
+        android:layout_height="533dp" />
 
     <ImageView
+        android:layout_below="@id/camera_view"
         android:id="@+id/imageview"
         android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_height="533dp"
         android:background="#ffff00"
         android:visibility="gone"/>
 
@@ -147,6 +148,14 @@
             android:layout_height="wrap_content"
             android:text="拍照"
             android:onClick="takephotoClick"
+            />
+
+        <Button
+            android:id="@+id/switchcamera_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="切换摄像头"
+            android:onClick="switchCameraClick"
             />
     </LinearLayout>
 

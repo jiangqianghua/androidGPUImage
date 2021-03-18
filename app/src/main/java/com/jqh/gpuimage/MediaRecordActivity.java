@@ -249,7 +249,9 @@ public class MediaRecordActivity extends AppCompatActivity {
 
     }
 
-
+    public void switchCameraClick(View view) {
+        cameraView.switchCamera();
+    }
 
 
     class UpdateRunable implements Runnable {
