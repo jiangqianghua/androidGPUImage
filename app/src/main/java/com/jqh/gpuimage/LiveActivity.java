@@ -126,7 +126,6 @@ public class LiveActivity extends AppCompatActivity {
     public void startLive(View view) {
         if (jqhMediaEncodec == null) {
             recordBtn.setText("停止推流");
-            jqhPushVideo.initLivePush("rtmp://pushlive3js.qianxueyunke.com/video/1122334455");
 //                        jqhPushVideo.initLivePush("rtmp://106.12.153.154:1936/live/1122334455");
 
         } else {
