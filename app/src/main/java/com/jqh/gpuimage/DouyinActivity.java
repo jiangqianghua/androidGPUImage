@@ -85,12 +85,10 @@ public class DouyinActivity extends AppCompatActivity {
 
         cameraView.getCameraRender().setOnDetectorFaceListener(new OnDetectorFaceListener() {
             @Override
-            public void onDetectorRect(RectF rectF) {
-                int w = DisplayUtil.getScreenWidth(DouyinActivity.this);
-                int h = DisplayUtil.getScreenHeight(DouyinActivity.this);
+            public void onDetectorRect(RectF rectF, int w, int h) {
                 left = rectF.left * 1.0f / w;
                 top = rectF.top * 1.0f / h;
-                scale = (rectF.right - rectF.left) * 1.0f / h;
+                scale = (rectF.right - rectF.left) * 1.0f / w;
                 updateTexture();
             }
 
@@ -181,7 +179,7 @@ public class DouyinActivity extends AppCompatActivity {
     public void imgTextureClick(View view) {
         if (!isAddTexture) {
             isAddTexture = true;
-            Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a);
+            Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.d);
             cameraView.addTexture(new BaseTexture(this, textureKey, bitmap, 0.1f, 0.1f, 0.1f));
             jqhMediaEncodec.addTexture(new BaseTexture(this, textureKey, bitmap,0.1f, 0.1f, 0.1f));
 //            handler.postDelayed(updateRunable, 1000);

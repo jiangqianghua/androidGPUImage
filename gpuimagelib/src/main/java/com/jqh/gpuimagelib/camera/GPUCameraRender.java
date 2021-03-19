@@ -54,7 +54,7 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
 
     private boolean isDetectorFace = false;
 
-    private int detectorInterval = 10;
+    private int detectorInterval = 1;
     private long lastTime = 0;
     private boolean isLastDetecotrDone = true;
 
@@ -185,7 +185,7 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
             isTakePicture = false;
             if (onSurfaceCreateListener != null) onSurfaceCreateListener.onCreateBitmap(bmp);
         }
-        LogUtils.logd("开始检测人脸 isLastDetecotrDone=" + isLastDetecotrDone);
+//        LogUtils.logd("开始检测人脸 isLastDetecotrDone=" + isLastDetecotrDone);
         if (isDetectorFace && isLastDetecotrDone) {
             boolean isNeedDetector = false;
             if (lastTime == 0) {
@@ -222,16 +222,18 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
             @Override
             public void run() {
                 isLastDetecotrDone = false;
-                Bitmap bitmap = ImageUtils.compress(bmp);
+                LogUtils.logd("开始检测人脸 start");
+                Bitmap bitmap = ImageUtils.matrix(bmp);
                 RectF[] faces = FaceUtils.detecotrFace(bitmap);
-                bmp.recycle();
-                bitmap.recycle();
+                LogUtils.logd("开始检测人脸 end");
                 for (int i = 0 ; i < faces.length; i++) {
                     RectF rectF = faces[i];
                     if (rectF == null) continue;
-                    if (onDetectorFaceListener != null) onDetectorFaceListener.onDetectorRect(rectF);
+                    if (onDetectorFaceListener != null) onDetectorFaceListener.onDetectorRect(rectF, bitmap.getWidth(), bitmap.getHeight());
                     LogUtils.logd("开始检测人脸 left=" + rectF.left + " top=" + rectF.top + " righ=" + rectF.right + " bottom=" + rectF.bottom + " w=" + width + " h=" + height);
                 }
+                bmp.recycle();
+                bitmap.recycle();
                 isLastDetecotrDone = true;
             }
         });

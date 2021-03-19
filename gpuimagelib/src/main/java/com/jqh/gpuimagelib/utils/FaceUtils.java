@@ -38,10 +38,15 @@ public class FaceUtils {
                 //这里的框，参数分别是：左上角的X,Y  右下角的X,Y
                 //也就是左上角（r.left,r.top），右下角( r.right,r.bottom)。作为定位，确定这个框的格局。
                 RectF r = new RectF();
-                r.left = pf.x - face.eyesDistance() / 2;
-                r.right = pf.x + face.eyesDistance() / 2;
-                r.top = pf.y - face.eyesDistance() / 2;
-                r.bottom = pf.y + face.eyesDistance() / 2;
+//                r.left = pf.x - face.eyesDistance() / 2;
+//                r.right = pf.x + face.eyesDistance() / 2;
+//                r.top = pf.y - face.eyesDistance() / 2;
+//                r.bottom = pf.y + face.eyesDistance() / 2;
+
+                r.left = pf.x - face.eyesDistance();
+                r.right = pf.x + face.eyesDistance();
+                r.top = pf.y - face.eyesDistance();
+                r.bottom = pf.y + face.eyesDistance();
                 faceRects[i] = r;
             }
         }
@@ -50,7 +55,7 @@ public class FaceUtils {
 
     public static void showFace(Bitmap bitmap, ImageView imageView)
     {
-        bitmap = ImageUtils.compress(bitmap);
+        bitmap = ImageUtils.matrix(bitmap);
         bitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
         //设定最大可查的人脸数量
         int MAX_FACES=1;

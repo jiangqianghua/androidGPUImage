@@ -94,9 +94,11 @@ public class BaseGPUImageFilter {
 
     public void init(){
         if (inited) return;
-        program = ShaderUtils.createProgram(getVertexSource(), getFragmentSource());
-        vPosition = GLES20.glGetAttribLocation(program, "v_Position");
-        fPosition = GLES20.glGetAttribLocation(program, "f_Position");
+        if (program <= 0) {
+            program = ShaderUtils.createProgram(getVertexSource(), getFragmentSource());
+            vPosition = GLES20.glGetAttribLocation(program, "v_Position");
+            fPosition = GLES20.glGetAttribLocation(program, "f_Position");
+        }
         inited = true;
         LogUtils.logd("init base program=" + program + " vp=" + vPosition + " fp=" + fPosition);
     }
