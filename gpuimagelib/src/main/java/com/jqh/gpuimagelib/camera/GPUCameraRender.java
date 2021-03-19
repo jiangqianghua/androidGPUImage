@@ -3,6 +3,7 @@ package com.jqh.gpuimagelib.camera;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
@@ -20,6 +21,7 @@ import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.utils.CachedThreadPool;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
 import com.jqh.gpuimagelib.utils.FaceUtils;
+import com.jqh.gpuimagelib.utils.ImageUtils;
 import com.jqh.gpuimagelib.utils.LogUtils;
 import com.jqh.gpuimagelib.utils.RenderUtils;
 
@@ -220,9 +222,10 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
             @Override
             public void run() {
                 isLastDetecotrDone = false;
-
-                RectF[] faces = FaceUtils.detecotrFace(bmp);
+                Bitmap bitmap = ImageUtils.compress(bmp);
+                RectF[] faces = FaceUtils.detecotrFace(bitmap);
                 bmp.recycle();
+                bitmap.recycle();
                 for (int i = 0 ; i < faces.length; i++) {
                     RectF rectF = faces[i];
                     if (rectF == null) continue;

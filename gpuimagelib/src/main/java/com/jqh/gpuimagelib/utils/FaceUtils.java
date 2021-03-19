@@ -50,6 +50,7 @@ public class FaceUtils {
 
     public static void showFace(Bitmap bitmap, ImageView imageView)
     {
+        bitmap = ImageUtils.compress(bitmap);
         bitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
         //设定最大可查的人脸数量
         int MAX_FACES=1;
