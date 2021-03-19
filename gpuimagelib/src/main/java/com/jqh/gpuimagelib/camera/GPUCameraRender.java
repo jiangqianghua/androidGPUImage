@@ -1,17 +1,26 @@
 package com.jqh.gpuimagelib.camera;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.util.Log;
 
+import com.jqh.gpuimagelib.listener.OnDetectorFaceListener;
 import com.jqh.gpuimagelib.opengl.GLSurfaceView;
 import com.jqh.gpuimagelib.opengl.ShaderUtils;
 import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
+import com.jqh.gpuimagelib.utils.CachedThreadPool;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
+import com.jqh.gpuimagelib.utils.FaceUtils;
+import com.jqh.gpuimagelib.utils.LogUtils;
 import com.jqh.gpuimagelib.utils.RenderUtils;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -40,6 +49,20 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
     private MediaGPUImageFilter baseGPUImageFilter;
 
     private boolean isTakePicture = false;
+
+    private boolean isDetectorFace = false;
+
+    private int detectorInterval = 10;
+    private long lastTime = 0;
+    private boolean isLastDetecotrDone = true;
+
+    private Handler mBackgroundHandler;
+
+    private OnDetectorFaceListener onDetectorFaceListener;
+
+    public void setOnDetectorFaceListener(OnDetectorFaceListener onDetectorFaceListener) {
+        this.onDetectorFaceListener = onDetectorFaceListener;
+    }
 
     public void setGl(GL10 gl) {
         this.gl = gl;
@@ -160,6 +183,70 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
             isTakePicture = false;
             if (onSurfaceCreateListener != null) onSurfaceCreateListener.onCreateBitmap(bmp);
         }
+        LogUtils.logd("开始检测人脸 isLastDetecotrDone=" + isLastDetecotrDone);
+        if (isDetectorFace && isLastDetecotrDone) {
+            boolean isNeedDetector = false;
+            if (lastTime == 0) {
+                lastTime = System.currentTimeMillis();
+                isNeedDetector = true;
+            } else {
+                long now = System.currentTimeMillis();
+                if (now - lastTime > detectorInterval) {
+                    isNeedDetector = true;
+                    lastTime = now;
+                }
+            }
+            if (isNeedDetector) {
+                detectorFace();
+
+            }
+        }
+    }
+
+    private synchronized Handler getBackgroundHandler() {
+        if (mBackgroundHandler == null) {
+            HandlerThread thread = new HandlerThread("background");
+            thread.start();
+            mBackgroundHandler = new Handler(thread.getLooper());
+        }
+        return mBackgroundHandler;
+    }
+
+    private void detectorFace() {
+//        LogUtils.logd("开始检测人脸");
+        final Bitmap bmp = RenderUtils.createBitmapFromGLSurface(0, 0, width,
+                height, gl);
+        getBackgroundHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                isLastDetecotrDone = false;
+
+                RectF[] faces = FaceUtils.detecotrFace(bmp);
+                bmp.recycle();
+                for (int i = 0 ; i < faces.length; i++) {
+                    RectF rectF = faces[i];
+                    if (rectF == null) continue;
+                    if (onDetectorFaceListener != null) onDetectorFaceListener.onDetectorRect(rectF);
+                    LogUtils.logd("开始检测人脸 left=" + rectF.left + " top=" + rectF.top + " righ=" + rectF.right + " bottom=" + rectF.bottom + " w=" + width + " h=" + height);
+                }
+                isLastDetecotrDone = true;
+            }
+        });
+//        CachedThreadPool.executorService.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                isLastDetecotrDone = false;
+//                RectF[] faces = FaceUtils.detecotrFace(bmp);
+//                bmp.recycle();
+//                for (int i = 0 ; i < faces.length; i++) {
+//                    RectF rectF = faces[i];
+//                    if (rectF == null) continue;
+//                    LogUtils.logd("开始检测人脸 left=" + rectF.left + " top=" + rectF.top + " righ=" + rectF.right + " bottom=" + rectF.bottom);
+//                }
+//                isLastDetecotrDone = true;
+//            }
+//        });
+
     }
 
     public void takePhoto(){
@@ -198,5 +285,9 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
 
     public void updateTexture(String id, float left, float top, float scale) {
         cameraFboRender.updateTexture(id, left, top, scale);
+    }
+
+    public void isDetectorFace(boolean isDetecotr) {
+        this.isDetectorFace = isDetecotr;
     }
 }

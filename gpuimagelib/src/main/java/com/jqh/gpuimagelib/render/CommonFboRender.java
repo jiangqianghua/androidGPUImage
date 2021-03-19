@@ -113,4 +113,8 @@ public class CommonFboRender {
         }
         return null;
     }
+
+    public void isDetectorFace(boolean isDetecotr) {
+
+    }
 }

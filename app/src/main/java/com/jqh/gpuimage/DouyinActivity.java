@@ -6,9 +6,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -22,6 +21,7 @@ import com.jqh.gpuimagelib.audio.AudioRecordUtil;
 import com.jqh.gpuimagelib.camera.GPUCameraView;
 import com.jqh.gpuimagelib.encodec.JqhBaseMediaEncoder;
 import com.jqh.gpuimagelib.encodec.JqhMediaEncodec;
+import com.jqh.gpuimagelib.listener.OnDetectorFaceListener;
 import com.jqh.gpuimagelib.render.filter.BaseGPUImageFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageBeautyFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageBrightnessFilter;
@@ -39,14 +39,17 @@ import com.jqh.gpuimagelib.render.filter.GPUImageZoomBlurFilter;
 import com.jqh.gpuimagelib.render.textrue.BaseTexture;
 import com.jqh.gpuimagelib.render.textrue.TextTexture;
 import com.jqh.gpuimagelib.utils.DisplayUtil;
+import com.jqh.gpuimagelib.utils.FaceUtils;
+import com.jqh.gpuimagelib.utils.LogUtils;
 
 import java.io.File;
 
-public class MediaRecordActivity extends AppCompatActivity {
+public class DouyinActivity extends AppCompatActivity {
+
     private JqhMediaEncodec jqhMediaEncodec ;
     private String path;
     AudioRecordUtil audioRecordUtil;
-    private Button recordBtn;
+    private Button recordBtn, detectorBtn;
     private GPUCameraView cameraView;
 
     private Handler handler = new Handler(Looper.getMainLooper());
@@ -58,9 +61,9 @@ public class MediaRecordActivity extends AppCompatActivity {
     private float left = 0.0f, top = 0.0f, scale = 0.2f;
 
     private UpdateRunable updateRunable = new UpdateRunable();
+    private boolean isDetector = false;
 
-
-
+    private ImageView imageView ;
     private Context getContext(){
         return this;
     }
@@ -68,16 +71,43 @@ public class MediaRecordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_media_record);
+        setContentView(R.layout.activity_douyin);
 
         cameraView = findViewById(R.id.camera_view);
         recordBtn = findViewById(R.id.record_btn);
-
+        detectorBtn = findViewById(R.id.detectorFace);
         String cachePath = getDiskCachePath(getApplicationContext());
         path = cachePath + File.separator + "record.mp4" ;
 //        cameraView.addFilter(new GPUImageOpacityFilter(this, 0.5f));
 
         cameraView.addFilter(new BaseGPUImageFilter(this));
+        cameraView.isDetectorFace(isDetector);
+
+        cameraView.getCameraRender().setOnDetectorFaceListener(new OnDetectorFaceListener() {
+            @Override
+            public void onDetectorRect(RectF rectF) {
+                int w = DisplayUtil.getScreenWidth(DouyinActivity.this);
+                int h = DisplayUtil.getScreenHeight(DouyinActivity.this);
+                left = rectF.left * 1.0f / w;
+                top = rectF.top * 1.0f / h;
+                scale = (rectF.right - rectF.left) * 1.0f / h;
+                updateTexture();
+            }
+
+            @Override
+            public void onBitmap(Bitmap bitmap) {
+
+            }
+        });
+
+        imageView = findViewById(R.id.imageview);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView.setVisibility(View.GONE);
+            }
+        });
     }
 
     public void record(View view) {
@@ -154,12 +184,12 @@ public class MediaRecordActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a);
             cameraView.addTexture(new BaseTexture(this, textureKey, bitmap, 0.1f, 0.1f, 0.1f));
             jqhMediaEncodec.addTexture(new BaseTexture(this, textureKey, bitmap,0.1f, 0.1f, 0.1f));
-            handler.postDelayed(updateRunable, 1000);
+//            handler.postDelayed(updateRunable, 1000);
         } else {
             cameraView.removeTexture(textureKey);
             jqhMediaEncodec.removeTexture(textureKey);
             isAddTexture = false;
-            handler.removeCallbacks(updateRunable);
+//            handler.removeCallbacks(updateRunable);
         }
 
     }
@@ -174,6 +204,7 @@ public class MediaRecordActivity extends AppCompatActivity {
         cameraView.updateTexture(textureKey, left, top, scale);
         if (jqhMediaEncodec == null) return ;
         jqhMediaEncodec.updateTexture(textureKey, left, top, scale);
+        LogUtils.logd("开始检测人脸 left=" + left + " top=" + top);
     }
 
     public void zoomblurFilterClick(View view) {
@@ -239,8 +270,8 @@ public class MediaRecordActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        ImageView imageView = findViewById(R.id.imageview);
-                        imageView.setImageBitmap(bitmap);
+                        FaceUtils.showFace(bitmap, imageView);
+//                        imageView.setImageBitmap(bitmap);
                         imageView.setVisibility(View.VISIBLE);
                     }
                 });
@@ -255,6 +286,7 @@ public class MediaRecordActivity extends AppCompatActivity {
         cameraView.switchCamera();
     }
 
+
     class UpdateRunable implements Runnable {
         @Override
         public void run() {
@@ -267,6 +299,14 @@ public class MediaRecordActivity extends AppCompatActivity {
         }
     }
 
-
+    public void detectorFaceClick(View view) {
+        isDetector = !isDetector;
+        cameraView.isDetectorFace(isDetector);
+        if (isDetector) {
+            detectorBtn.setText("关闭人脸检测");
+        } else {
+            detectorBtn.setText("打开人脸检测");
+        }
+    }
 
 }

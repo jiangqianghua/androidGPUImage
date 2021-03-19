@@ -160,4 +160,12 @@ public class GPUCameraView extends GLSurfaceView {
         jqhCamera.changeCamera(cameraId);
         previewAngle(context);
     }
+
+    public void isDetectorFace(boolean isDetecotr) {
+        if (jqhCameraRender != null) jqhCameraRender.isDetectorFace(isDetecotr);
+    }
+
+    public GPUCameraRender getCameraRender() {
+        return jqhCameraRender;
+    }
 }
