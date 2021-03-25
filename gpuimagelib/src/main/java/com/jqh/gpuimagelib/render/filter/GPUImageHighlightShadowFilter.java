@@ -2,7 +2,11 @@ package com.jqh.gpuimagelib.render.filter;
 
 import android.content.Context;
 import android.opengl.GLES20;
-
+/**
+ * Adjusts the shadows and highlights of an image
+ * shadows: Increase to lighten shadows, from 0.0 to 1.0, with 0.0 as the default.
+ * highlights: Decrease to darken highlights, from 0.0 to 1.0, with 1.0 as the default.
+ */
 public class GPUImageHighlightShadowFilter extends BaseGPUImageFilter {
 
     public static final String HIGHLIGHT_SHADOW_FRAGMENT_SHADER = "" +
@@ -32,7 +36,7 @@ public class GPUImageHighlightShadowFilter extends BaseGPUImageFilter {
     private float highlights;
 
     public GPUImageHighlightShadowFilter(Context context) {
-        this(context,0.0f, 1.0f);
+        this(context,0.5f, 0.5f);
     }
 
     public GPUImageHighlightShadowFilter(Context context,final float shadows, final float highlights) {

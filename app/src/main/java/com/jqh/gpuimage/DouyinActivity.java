@@ -39,6 +39,7 @@ import com.jqh.gpuimagelib.render.filter.GPUImageGlassSphereFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageGreyFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageHalftoneFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageHazeFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageHighlightShadowFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageOpacityFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageSphereRefractionFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageSwirlFilter;
@@ -342,6 +343,11 @@ public class DouyinActivity extends AppCompatActivity {
     public void HazeFilterClick(View view) {
         cameraView.addFilter(new GPUImageHazeFilter(this));
         jqhMediaEncodec.addFilter(new GPUImageHazeFilter(this));
+    }
+
+    public void HighlightShadowFilterClick(View view) {
+        cameraView.addFilter(new GPUImageHighlightShadowFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageHighlightShadowFilter(this));
     }
 
 

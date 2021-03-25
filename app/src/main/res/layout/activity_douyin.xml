@@ -157,6 +157,12 @@
                 android:text="Haze雾霾"
                 android:onClick="HazeFilterClick"/>
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HighlightShadow高亮阴影"
+                android:onClick="HighlightShadowFilterClick"/>
+
         </LinearLayout>
     </HorizontalScrollView>
 
