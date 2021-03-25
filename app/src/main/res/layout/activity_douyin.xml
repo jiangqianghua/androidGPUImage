@@ -99,9 +99,67 @@
                 android:layout_height="wrap_content"
                 android:text="ColorBalance"
                 android:onClick="ColorBalanceFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ColorInvert"
+                android:onClick="ColorInvertFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ColorMatrix"
+                android:onClick="ColorMatrixFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contrast对比度"
+                android:onClick="ContrastFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crosshatch网格线"
+                android:onClick="CrosshatchFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exposure曝光"
+                android:onClick="ExposureFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FalseColor假彩色"
+                android:onClick="FalseColorFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gamma伽马"
+                android:onClick="GammaFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GlassSphere玻璃球"
+                android:onClick="GlassSphereFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Halftone中间调"
+                android:onClick="HalftoneFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Haze雾霾"
+                android:onClick="HazeFilterClick"/>
 
         </LinearLayout>
     </HorizontalScrollView>
+
 
     <HorizontalScrollView
         android:id="@+id/tools1"

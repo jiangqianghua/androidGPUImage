@@ -28,7 +28,17 @@ import com.jqh.gpuimagelib.render.filter.GPUImageBrightnessFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageBulgeDistortionFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageCGAColorspaceFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageColorBalanceFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageColorInvertFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageColorMatrixFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageContrastFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageCrosshatchFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageExposureFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageFalseColorFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageGammaFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageGlassSphereFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageGreyFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageHalftoneFilter;
+import com.jqh.gpuimagelib.render.filter.GPUImageHazeFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageOpacityFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageSphereRefractionFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageSwirlFilter;
@@ -282,6 +292,56 @@ public class DouyinActivity extends AppCompatActivity {
 
     public void switchCameraClick(View view) {
         cameraView.switchCamera();
+    }
+
+    public void ColorInvertFilterClick(View view) {
+        cameraView.addFilter(new GPUImageColorInvertFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageColorInvertFilter(this));
+    }
+
+    public void ColorMatrixFilterClick(View view) {
+        cameraView.addFilter(new GPUImageColorMatrixFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageColorMatrixFilter(this));
+    }
+
+    public void ContrastFilterClick(View view) {
+        cameraView.addFilter(new GPUImageContrastFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageContrastFilter(this));
+    }
+
+    public void CrosshatchFilterClick(View view) {
+        cameraView.addFilter(new GPUImageCrosshatchFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageCrosshatchFilter(this));
+    }
+
+    public void ExposureFilterClick(View view) {
+        cameraView.addFilter(new GPUImageExposureFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageExposureFilter(this));
+    }
+
+    public void FalseColorFilterClick(View view) {
+        cameraView.addFilter(new GPUImageFalseColorFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageFalseColorFilter(this));
+    }
+
+    public void GammaFilterClick(View view) {
+        cameraView.addFilter(new GPUImageGammaFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageGammaFilter(this));
+    }
+
+    public void GlassSphereFilterClick(View view) {
+        cameraView.addFilter(new GPUImageGlassSphereFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageGlassSphereFilter(this));
+    }
+
+    public void HalftoneFilterClick(View view) {
+        cameraView.addFilter(new GPUImageHalftoneFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageHalftoneFilter(this));
+    }
+
+    public void HazeFilterClick(View view) {
+        cameraView.addFilter(new GPUImageHazeFilter(this));
+        jqhMediaEncodec.addFilter(new GPUImageHazeFilter(this));
     }
 
 
