@@ -8,6 +8,19 @@ import com.jqh.gpuimagelib.opengl.ShaderUtils;
 import com.jqh.gpuimagelib.utils.LogUtils;
 
 public class GPUImageOpacityFilter extends BaseGPUImageFilter {
+
+    public static final String OPACITY_FRAGMENT_SHADER = "" +
+            "  varying highp vec2 ft_Position;\n" +
+            "  \n" +
+            "  uniform sampler2D inputImageTexture;\n" +
+            "  uniform lowp float opacity;\n" +
+            "  \n" +
+            "  void main()\n" +
+            "  {\n" +
+            "      lowp vec4 textureColor = texture2D(inputImageTexture, ft_Position);\n" +
+            "      \n" +
+            "      gl_FragColor = vec4(textureColor.rgb, textureColor.a * opacity);\n" +
+            "  }\n";
     private int opacityLocation;
     private float opacity;
     public GPUImageOpacityFilter(Context context, float opacity) {

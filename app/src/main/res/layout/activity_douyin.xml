@@ -163,6 +163,64 @@
                 android:text="HighlightShadow高亮阴影"
                 android:onClick="HighlightShadowFilterClick"/>
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hue色调"
+                android:onClick="HueFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kuwahara"
+                android:onClick="KuwaharaFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Luminance"
+                android:onClick="LuminanceFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LuminanceThreshold"
+                android:onClick="LuminanceThresholdFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monochrome单色"
+                android:onClick="MonochromeFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pixelation像素"
+                android:onClick="PixelationFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Posterize"
+                android:onClick="PosterizeFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RGB_R"
+                android:onClick="RGB_RFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RGB_G"
+                android:onClick="RGB_GFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RGB_B"
+                android:onClick="RGB_BFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saturatio饱和度"
+                android:onClick="SaturatioFilterClick"/>
+
         </LinearLayout>
     </HorizontalScrollView>
 
