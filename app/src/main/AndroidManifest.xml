@@ -17,16 +17,18 @@
         android:theme="@style/AppTheme">
         <activity android:name=".DouyinActivity"
             android:theme="@style/AppThemeFullScreen">
+
+        </activity>
+        <activity android:name=".FaceDetectorActivity">
+
+        </activity>
+        <activity android:name=".LiveActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FaceDetectorActivity">
-
-        </activity>
-        <activity android:name=".LiveActivity" />
         <activity
             android:name=".MediaRecordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
