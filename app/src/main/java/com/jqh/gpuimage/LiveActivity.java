@@ -96,6 +96,32 @@ public class LiveActivity extends AppCompatActivity {
         jqhPushVideo= new JqhPushVideo();
         cameraView.addFilter(new BaseGPUImageFilter(this));
         initEvent();
+
+        jqhMediaEncodec = new JqhPushEncodec(LiveActivity.this, cameraView.getTextureId());
+        jqhMediaEncodec.initEncodec(cameraView.getEglContext(), 720/2, 1280/2, 44100 , 2);
+
+
+        jqhMediaEncodec.setOnMediaInfoListener(new JqhPushEncodec.OnMediaInfoListener() {
+            @Override
+            public void onMediaTime(int times) {
+
+            }
+
+            @Override
+            public void onSPSPPSInfo(byte[] sps, byte[] pps) {
+                jqhPushVideo.pushSPSPPS(sps, pps);
+            }
+
+            @Override
+            public void onVideoInfo(byte[] data, boolean keyframe) {
+                jqhPushVideo.pushVideoData(data, keyframe);
+            }
+
+            @Override
+            public void onAudioInfo(byte[] data) {
+                jqhPushVideo.pushAudioData(data);
+            }
+        });
     }
 
     private void initEvent(){
@@ -109,31 +135,7 @@ public class LiveActivity extends AppCompatActivity {
             @Override
             public void onConnectSuccess() {
                 Log.d("jqh123", "onConnectSuccess");
-                jqhMediaEncodec = new JqhPushEncodec(LiveActivity.this, cameraView.getTextureId());
-                jqhMediaEncodec.initEncodec(cameraView.getEglContext(), 720/2, 1280/2, 44100 , 2);
                 jqhMediaEncodec.startRecord();
-
-                jqhMediaEncodec.setOnMediaInfoListener(new JqhPushEncodec.OnMediaInfoListener() {
-                    @Override
-                    public void onMediaTime(int times) {
-
-                    }
-
-                    @Override
-                    public void onSPSPPSInfo(byte[] sps, byte[] pps) {
-                        jqhPushVideo.pushSPSPPS(sps, pps);
-                    }
-
-                    @Override
-                    public void onVideoInfo(byte[] data, boolean keyframe) {
-                        jqhPushVideo.pushVideoData(data, keyframe);
-                    }
-
-                    @Override
-                    public void onAudioInfo(byte[] data) {
-                        jqhPushVideo.pushAudioData(data);
-                    }
-                });
             }
 
             @Override

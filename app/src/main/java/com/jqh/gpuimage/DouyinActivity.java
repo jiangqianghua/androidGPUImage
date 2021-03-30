@@ -126,6 +126,17 @@ public class DouyinActivity extends AppCompatActivity {
                 imageView.setVisibility(View.GONE);
             }
         });
+
+        jqhMediaEncodec = new JqhMediaEncodec(getContext(), cameraView.getTextureId());
+        int w = DisplayUtil.getScreenWidth(getContext());
+        int h = DisplayUtil.getScreenHeight(getContext());
+        jqhMediaEncodec.initEncodec(cameraView.getEglContext(), path, 720, 1280, 44100, 2 );
+        jqhMediaEncodec.setOnMediaInfoListener(new JqhBaseMediaEncoder.OnMediaInfoListener(){
+            @Override
+            public void onMediaTime(long times) {
+                Log.d("jqh123", "time is = " + times);
+            }
+        });
     }
 
     public void record(View view) {
@@ -133,17 +144,6 @@ public class DouyinActivity extends AppCompatActivity {
             audioRecordUtil = new AudioRecordUtil();
             recordBtn.setText("停止录制");
 
-
-            jqhMediaEncodec = new JqhMediaEncodec(getContext(), cameraView.getTextureId());
-            int w = DisplayUtil.getScreenWidth(getContext());
-            int h = DisplayUtil.getScreenHeight(getContext());
-            jqhMediaEncodec.initEncodec(cameraView.getEglContext(), path, 720, 1280, 44100, 2 );
-            jqhMediaEncodec.setOnMediaInfoListener(new JqhBaseMediaEncoder.OnMediaInfoListener(){
-                @Override
-                public void onMediaTime(long times) {
-                    Log.d("jqh123", "time is = " + times);
-                }
-            });
             // 声音初始化完成后，开始进行录制
             jqhMediaEncodec.startRecord();
             audioRecordUtil.startRecord();
