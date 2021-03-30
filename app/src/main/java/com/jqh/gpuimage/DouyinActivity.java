@@ -438,4 +438,18 @@ public class DouyinActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (audioRecordUtil != null) {
+            audioRecordUtil.stop();
+        }
+        if (jqhMediaEncodec != null) {
+            jqhMediaEncodec.stopRecord();
+        }
+
+        jqhMediaEncodec = null;
+
+        cameraView.onDestory();
+    }
 }

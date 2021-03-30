@@ -91,6 +91,127 @@
                 android:layout_height="wrap_content"
                 android:text="ColorBalance"
                 android:onClick="ColorBalanceFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ColorInvert"
+                android:onClick="ColorInvertFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ColorMatrix"
+                android:onClick="ColorMatrixFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contrast对比度"
+                android:onClick="ContrastFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crosshatch网格线"
+                android:onClick="CrosshatchFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exposure曝光"
+                android:onClick="ExposureFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FalseColor假彩色"
+                android:onClick="FalseColorFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gamma伽马"
+                android:onClick="GammaFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GlassSphere玻璃球"
+                android:onClick="GlassSphereFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Halftone中间调"
+                android:onClick="HalftoneFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Haze雾霾"
+                android:onClick="HazeFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HighlightShadow高亮阴影"
+                android:onClick="HighlightShadowFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hue色调"
+                android:onClick="HueFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kuwahara"
+                android:onClick="KuwaharaFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Luminance"
+                android:onClick="LuminanceFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LuminanceThreshold"
+                android:onClick="LuminanceThresholdFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monochrome单色"
+                android:onClick="MonochromeFilterClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pixelation像素"
+                android:onClick="PixelationFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Posterize"
+                android:onClick="PosterizeFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RGB_R"
+                android:onClick="RGB_RFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RGB_G"
+                android:onClick="RGB_GFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RGB_B"
+                android:onClick="RGB_BFilterClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saturatio饱和度"
+                android:onClick="SaturatioFilterClick"/>
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -109,23 +230,41 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="图片"
+                android:text="贴图"
                 android:onClick="imgTextureClick"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="文字"
+                android:text="水印"
                 android:onClick="textTextureClick"/>
 
         </LinearLayout>
     </HorizontalScrollView>
 
-    <Button
-        android:id="@+id/record_btn"
-        android:layout_width="wrap_content"
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="开始推流"
-        android:onClick="startLive"
-        android:layout_above="@id/tools" />
+        android:layout_above="@id/tools" >
+        <Button
+            android:id="@+id/record_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始推流"
+            android:onClick="startLive"
+             />
+
+
+        <Button
+            android:id="@+id/switchcamera_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="切换摄像头"
+            android:onClick="switchCameraClick"
+            />
+
+    </LinearLayout>
 </RelativeLayout>

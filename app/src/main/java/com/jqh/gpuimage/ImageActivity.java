@@ -14,7 +14,7 @@ import com.jqh.gpuimagelib.image.GPUImageView;
 import com.jqh.gpuimagelib.render.filter.GPUImageOpacityFilter;
 import com.jqh.gpuimagelib.render.filter.GPUImageZoomBlurFilter;
 
-public class MainActivity extends AppCompatActivity {
+public class ImageActivity extends AppCompatActivity {
 
     private GPUImageView gpuImageView;
 

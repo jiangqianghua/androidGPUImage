@@ -240,13 +240,13 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="图片"
+                android:text="贴图"
                 android:onClick="imgTextureClick"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="文字"
+                android:text="水印"
                 android:onClick="textTextureClick"/>
 
         </LinearLayout>
