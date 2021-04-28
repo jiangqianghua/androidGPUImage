@@ -84,6 +84,8 @@ public class DouyinActivity extends AppCompatActivity {
     private boolean isDetector = false;
 
     private ImageView imageView ;
+
+    private boolean isRecord = false;
     private Context getContext(){
         return this;
     }
@@ -127,23 +129,28 @@ public class DouyinActivity extends AppCompatActivity {
             }
         });
 
-        jqhMediaEncodec = new JqhMediaEncodec(getContext(), cameraView.getTextureId());
-        int w = DisplayUtil.getScreenWidth(getContext());
-        int h = DisplayUtil.getScreenHeight(getContext());
-        jqhMediaEncodec.initEncodec(cameraView.getEglContext(), path, 720, 1280, 44100, 2 );
-        jqhMediaEncodec.setOnMediaInfoListener(new JqhBaseMediaEncoder.OnMediaInfoListener(){
-            @Override
-            public void onMediaTime(long times) {
-                Log.d("jqh123", "time is = " + times);
-            }
-        });
+
+
+
     }
 
     public void record(View view) {
-        if (jqhMediaEncodec == null) {
-            audioRecordUtil = new AudioRecordUtil();
-            recordBtn.setText("停止录制");
+        if (!isRecord) {
+            isRecord = true;
 
+            jqhMediaEncodec = new JqhMediaEncodec(getContext(), cameraView.getTextureId());
+            int w = DisplayUtil.getScreenWidth(getContext());
+            int h = DisplayUtil.getScreenHeight(getContext());
+            jqhMediaEncodec.initEncodec(cameraView.getEglContext(), path, 720, 1280, 44100, 2 );
+            jqhMediaEncodec.setOnMediaInfoListener(new JqhBaseMediaEncoder.OnMediaInfoListener(){
+                @Override
+                public void onMediaTime(long times) {
+                    Log.d("jqh123", "time is = " + times);
+                }
+            });
+
+            recordBtn.setText("停止录制");
+            audioRecordUtil = new AudioRecordUtil();
             // 声音初始化完成后，开始进行录制
             jqhMediaEncodec.startRecord();
             audioRecordUtil.startRecord();
@@ -158,6 +165,7 @@ public class DouyinActivity extends AppCompatActivity {
             });
 
         } else {
+            isRecord = false;
             audioRecordUtil.stop();
             jqhMediaEncodec.stopRecord();
             recordBtn.setText("开始录制");

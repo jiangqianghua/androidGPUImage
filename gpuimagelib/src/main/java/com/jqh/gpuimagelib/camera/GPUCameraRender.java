@@ -222,10 +222,12 @@ public class GPUCameraRender implements GLSurfaceView.GLRender, SurfaceTexture.O
             @Override
             public void run() {
                 isLastDetecotrDone = false;
-                LogUtils.logd("开始检测人脸 start");
+                LogUtils.logd("开始检测人脸- start");
                 Bitmap bitmap = ImageUtils.matrix(bmp);
+//                bitmap = ImageUtils.zeroAndOne(bitmap);
+                LogUtils.logd("开始检测人脸 donging");
                 RectF[] faces = FaceUtils.detecotrFace(bitmap);
-                LogUtils.logd("开始检测人脸 end");
+                LogUtils.logd("开始检测人脸- end");
                 for (int i = 0 ; i < faces.length; i++) {
                     RectF rectF = faces[i];
                     if (rectF == null) continue;
