@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ScreenLiveActivity"></activity>
         <activity android:name=".NavMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,11 +25,9 @@
         </activity>
         <activity
             android:name=".DouyinActivity"
-            android:theme="@style/AppThemeFullScreen"></activity>
-        <activity android:name=".FaceDetectorActivity"></activity>
-        <activity android:name=".LiveActivity">
-
-        </activity>
+            android:theme="@style/AppThemeFullScreen" />
+        <activity android:name=".FaceDetectorActivity" />
+        <activity android:name=".LiveActivity"></activity>
         <activity
             android:name=".MediaRecordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
